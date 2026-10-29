@@ -81,7 +81,7 @@ export function TraceSection({
   end?: number;
   /** Scroll range over which the segment draws (see motion's useScroll offset) */
   drawOffset?: [ScrollEdge, ScrollEdge];
-  tone?: "dark" | "light";
+  tone?: "dark" | "gray";
   className?: string;
   innerClassName?: string;
   /** Full-bleed layer rendered behind the section content */
@@ -149,7 +149,7 @@ export function TraceSection({
       id={id}
       className={cn(
         "relative scroll-mt-20",
-        tone === "light" ? "bg-[#f3f5f2] text-ink" : "",
+        tone === "gray" ? "border-y border-white/[0.06] bg-[#131815]" : "",
         className,
       )}
     >
@@ -167,7 +167,7 @@ export function TraceSection({
               <path
                 d={d}
                 fill="none"
-                stroke={tone === "light" ? "rgb(5 8 6 / 0.12)" : "rgb(255 255 255 / 0.1)"}
+                stroke="rgb(255 255 255 / 0.1)"
                 strokeWidth={1}
                 strokeDasharray="3 5"
               />

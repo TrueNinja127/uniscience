@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Roboto_Condensed } from "next/font/google";
+import { JetBrains_Mono, Outfit } from "next/font/google";
 import { MotionProvider } from "@/components/motion/motion-provider";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
-const condensed = Roboto_Condensed({
-  variable: "--font-condensed",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
@@ -15,11 +16,11 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Uniscience — Unified Science Technology",
+    default: "Uniscience | Unified Science Technology",
     template: "%s · Uniscience",
   },
   description:
-    "Uniscience engineers AI, data and cloud platforms for research-driven companies — designed by scientists, built by engineers, in one team.",
+    "Uniscience engineers AI, data and cloud platforms for research-driven companies. Designed by scientists, built by engineers, in one team.",
   keywords: [
     "Uniscience",
     "Unified Science Technology",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     "cloud engineering",
   ],
   openGraph: {
-    title: "Uniscience — Unified Science Technology",
+    title: "Uniscience | Unified Science Technology",
     description: "Complex science, engineered into software.",
     siteName: "Uniscience",
     type: "website",
@@ -44,7 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${condensed.variable} ${mono.variable} h-full antialiased`}
+      className={`${outfit.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <MotionProvider>{children}</MotionProvider>

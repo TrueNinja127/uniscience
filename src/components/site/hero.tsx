@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { ArrowDown, ArrowRight, Check, Play } from "lucide-react";
 import { LogoMark } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
@@ -31,48 +32,10 @@ function Line({ children, delay }: { children: React.ReactNode; delay: number })
   );
 }
 
-const STACK = [
-  "PyTorch", "NVIDIA CUDA", "Kubernetes", "AWS", "Azure", "Google Cloud",
-  "Databricks", "Snowflake", "Kafka", "Terraform", "Rust", "Python",
-  "Next.js", "React Native", "PostgreSQL", "Ray",
-];
-
-/** Technologies we build with, scrolling like an instrument readout. */
-function TechStrip() {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 1.6, duration: 1 }}
-      className="relative mx-auto mt-16 max-w-7xl px-5 sm:px-8 lg:mt-20"
-    >
-      <div className="flex items-center gap-6 border-y border-white/10 py-4">
-        <span className="shrink-0 font-mono text-[0.65rem] tracking-[0.2em] text-signal uppercase">
-          Built with
-        </span>
-        <div className="group flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-          <ul className="flex shrink-0 animate-marquee items-center gap-10 pr-10 group-hover:[animation-play-state:paused]">
-            {[...STACK, ...STACK].map((t, i) => (
-              <li
-                key={i}
-                aria-hidden={i >= STACK.length}
-                className="flex shrink-0 items-center gap-10 font-mono text-xs tracking-[0.12em] text-foreground/55 uppercase"
-              >
-                {t}
-                <span className="size-1 rotate-45 bg-signal/60" />
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 /** The horizon the trace starts from: a line with a raised platform and the mark on top. */
 function Surface() {
   return (
-    <div className="relative mx-auto mt-14 hidden h-36 max-w-7xl px-5 sm:px-8 lg:block">
+    <div className="relative mx-auto mt-8 hidden h-28 w-full max-w-7xl shrink-0 [@media(max-height:820px)]:mt-4 [@media(max-height:820px)]:h-24 px-5 sm:px-8 lg:block">
       <svg
         aria-hidden
         viewBox="0 0 1000 100"
@@ -80,7 +43,7 @@ function Surface() {
         className="absolute inset-x-5 top-0 h-24 w-[calc(100%-2.5rem)] overflow-visible sm:inset-x-8 sm:w-[calc(100%-4rem)]"
       >
         <motion.path
-          d="M0 60 H370 L392 34 H608 L630 60 H1000"
+          d="M0 60 H350 C378 60 374 34 402 34 H598 C626 34 622 60 650 60 H1000"
           fill="none"
           stroke="rgb(255 255 255 / 0.55)"
           strokeWidth="1"
@@ -106,7 +69,7 @@ function Surface() {
         animate={{ scaleY: 1 }}
         transition={{ delay: 2.2, duration: 0.8, ease: "easeIn" }}
       />
-      <div className="absolute top-[46px] right-[calc(50%+22px)] text-right font-mono text-[0.68rem] leading-tight tracking-[0.18em] uppercase">
+      <div className="eyebrow absolute top-[46px] right-[calc(50%+22px)] text-right text-[0.62rem] leading-snug text-foreground/70">
         Start
         <br />
         experiment
@@ -123,23 +86,40 @@ function Surface() {
 }
 
 export function Hero() {
-  return (
-    <section className="relative isolate overflow-hidden pt-32 sm:pt-40">
-      <HeroScene />
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const p = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.3 });
 
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+  // As the hero scrolls away, its content tilts back and recedes into depth.
+  const rotateX = useTransform(p, [0, 1], [0, 18]);
+  const z = useTransform(p, [0, 1], [0, -260]);
+  const y = useTransform(p, [0, 1], [0, 120]);
+  const opacity = useTransform(p, [0, 0.75], [1, 0]);
+
+  return (
+    <section
+      ref={ref}
+      className="relative isolate flex min-h-svh flex-col overflow-hidden pt-28 [perspective:1400px] [@media(max-height:820px)]:pt-24"
+    >
+      <HeroScene progress={p} />
+
+      <motion.div
+        style={{ rotateX, z, y, opacity, transformOrigin: "50% 0%" }}
+        className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-5 pb-16 will-change-transform sm:px-8 lg:pb-0"
+      >
         <motion.a
           href="#services"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease }}
-          className="group mb-8 inline-flex items-center gap-3 border border-white/10 bg-ink/60 py-1.5 pr-4 pl-1.5 font-mono text-[0.7rem] tracking-[0.14em] uppercase backdrop-blur-md transition-colors hover:border-signal/50"
+          className="group mb-6 inline-flex items-center gap-3 self-start rounded-full border border-white/10 bg-white/[0.04] py-1 pr-4 pl-1 text-sm backdrop-blur-md transition-colors hover:border-signal/50"
         >
-          <span className="bg-brand-gradient px-2 py-0.5 text-ink">New</span>
-          <span className="text-foreground/80">Uniscience Fusion — AI research platform</span>
+          <span className="rounded-full bg-brand-gradient px-2.5 py-0.5 text-xs font-semibold text-ink">New</span>
+          <span className="text-foreground/80">Introducing Uniscience Fusion, our AI research platform</span>
           <ArrowRight className="size-3.5 text-signal transition-transform group-hover:translate-x-0.5" />
         </motion.a>
-        <h1 className="display max-w-4xl text-[clamp(2.9rem,7.6vw,6.6rem)] normal-case">
+
+        <h1 className="display max-w-5xl text-[clamp(2.75rem,min(6.6vw,9svh),6rem)]">
           <Line delay={0.15}>Complex science.</Line>
           <Line delay={0.3}>
             Engineered into <span className="text-gradient">software.</span>
@@ -149,13 +129,13 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.8, ease }}
-          className="mt-6 max-w-2xl text-xl leading-snug text-foreground/85 sm:text-2xl"
+          className="mt-6 max-w-2xl text-lg leading-relaxed font-light text-foreground/80 sm:text-xl"
         >
-          AI, data and cloud platforms for research-driven companies — designed by
+          AI, data and cloud platforms for research-driven companies. Designed by
           scientists, built by engineers, in one unified team.
         </motion.p>
 
-        <div className="mt-14 grid items-end gap-12 lg:mt-20 lg:grid-cols-2">
+        <div className="mt-10 grid items-end gap-10 lg:grid-cols-[1fr_auto]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -174,40 +154,40 @@ export function Hero() {
                 </a>
               </Button>
             </div>
-            {/* Placeholder figures — replace with real company numbers. */}
-            <dl className="grid w-full max-w-lg grid-cols-3 divide-x divide-white/10 border-y border-white/10">
+            {/* Placeholder figures: replace with real company numbers. */}
+            <dl className="grid w-full max-w-md grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md lg:[@media(max-height:820px)]:hidden">
               {[
                 ["250+", "Products shipped"],
                 ["40M", "End users"],
                 ["12", "Countries"],
               ].map(([v, l]) => (
-                <div key={l} className="flex flex-col-reverse px-4 py-4 first:pl-0">
-                  <dt className="mt-1 font-mono text-[0.62rem] tracking-[0.16em] text-mono uppercase">{l}</dt>
-                  <dd className="text-3xl font-light text-foreground">{v}</dd>
+                <div key={l} className="flex flex-col-reverse px-5 py-4">
+                  <dt className="mt-1 text-xs text-mono">{l}</dt>
+                  <dd className="text-2xl font-light text-foreground">{v}</dd>
                 </div>
               ))}
             </dl>
           </motion.div>
 
-          <div className="font-mono lg:justify-self-end">
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.1, duration: 0.6 }}
-              className="flex gap-4 text-base leading-relaxed tracking-[0.06em] uppercase sm:text-lg"
-            >
-              <Play className="mt-1.5 size-4 shrink-0 fill-signal text-signal" />
-              <span className="max-w-md">
-                Turn your research into production software, guided by real scientists
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 0.8, ease }}
+            className="rounded-[1.75rem] border border-white/10 bg-ink/40 p-6 backdrop-blur-xl lg:max-w-md [@media(max-height:820px)]:p-5"
+          >
+            <p className="flex gap-3 text-base leading-snug font-medium">
+              <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-signal/15">
+                <Play className="size-2.5 fill-signal text-signal" />
               </span>
-            </motion.p>
-            <ul className="mt-6 space-y-2.5 pl-8 text-[0.82rem] text-foreground/80">
+              Turn your research into production software, guided by real scientists.
+            </p>
+            <ul className="mt-4 space-y-2 pl-8 text-sm text-foreground/75 [@media(max-height:820px)]:mt-3 [@media(max-height:820px)]:space-y-1">
               {CHECKLIST.map((item, i) => (
                 <motion.li
                   key={item}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.3 + i * 0.12, duration: 0.5, ease }}
+                  transition={{ delay: 1.3 + i * 0.1, duration: 0.5, ease }}
                   className="flex items-center gap-3"
                 >
                   <Check className="size-4 shrink-0 text-signal" />
@@ -217,18 +197,17 @@ export function Hero() {
               <motion.li
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.3 + CHECKLIST.length * 0.12, duration: 0.5, ease }}
-                className="flex items-center gap-3 font-bold text-foreground"
+                transition={{ delay: 1.3 + CHECKLIST.length * 0.1, duration: 0.5, ease }}
+                className="flex items-center gap-3 font-medium text-foreground"
               >
                 <Check className="size-4 shrink-0 text-signal" />
                 Scale from pilot to global production
               </motion.li>
             </ul>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
-      <TechStrip />
       <Surface />
     </section>
   );

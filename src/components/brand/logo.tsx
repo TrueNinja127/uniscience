@@ -20,7 +20,7 @@ export function Logo({
   return (
     <Image
       src={variant === "light" ? logoLightSrc : logoDarkSrc}
-      alt="Uniscience — Unified Science Technology"
+      alt="Uniscience, Unified Science Technology"
       priority={priority}
       sizes="(min-width: 1024px) 400px, 240px"
       className={cn("h-9 w-auto select-none", className)}

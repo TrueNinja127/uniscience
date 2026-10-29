@@ -12,12 +12,12 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const STEPS = [
   {
-    phase: "Week 1–2",
+    phase: "Week 1-2",
     title: "Discover",
     body: "We immerse in your domain, data and users, then define outcomes, risks and the target architecture.",
   },
   {
-    phase: "Week 3–5",
+    phase: "Week 3-5",
     title: "Experiment",
     body: "Hypotheses become working prototypes. We validate models and UX with real data before committing.",
   },
@@ -29,11 +29,11 @@ const STEPS = [
   {
     phase: "Ongoing",
     title: "Scale",
-    body: "We launch, observe and optimise — then hand over, or keep evolving the product with your team.",
+    body: "We launch, observe and optimise, then hand over, or keep evolving the product with your team.",
   },
 ];
 
-// Placeholder figures — replace with real company numbers.
+// Placeholder figures: replace with real company numbers.
 const STATS = [
   { value: 250, suffix: "+", label: "Products shipped" },
   { value: 98, suffix: "%", label: "Client retention" },
@@ -61,7 +61,7 @@ export function Process() {
   return (
     <TraceSection
       id="process"
-      tone="light"
+      tone="gray"
       from={56}
       to={10}
       jog={30}
@@ -69,41 +69,49 @@ export function Process() {
       innerClassName="pt-24 pb-32 lg:pt-28 lg:pb-40"
     >
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 70, rotateX: 26, transformPerspective: 1200 }}
+        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.9, ease }}
         className="lg:ml-[62%]"
       >
-        <Logo variant="dark" className="h-10" />
-        <SectionLabel index={5} label="Process" tone="light" className="mt-12" />
-        <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
-          <span className="text-ink/35">From hypothesis</span>
+        <Logo className="h-10" />
+        <SectionLabel index={5} label="Process" className="mt-12" />
+        <h2 className="display mt-6 text-[clamp(2.4rem,4.4vw,4rem)]">
+          <span className="text-dim">From hypothesis</span>
           <br />
-          to production
+          to <span className="text-gradient">production</span>
         </h2>
-        <p className="mt-8 max-w-sm font-mono text-sm leading-relaxed text-ink/60">
+        <p className="mt-8 max-w-sm text-[0.95rem] leading-relaxed text-mono">
           A scientific method for building software: transparent, evidence-driven,
-          and fast — you always know what we are building and why.
+          and fast. You always know what we are building and why.
         </p>
       </motion.div>
 
-      <ol className="mt-24 grid gap-px bg-ink/10 sm:grid-cols-2 lg:mt-32 lg:ml-[16%] lg:grid-cols-4">
+      <ol className="mt-24 grid gap-4 [perspective:1400px] sm:grid-cols-2 lg:mt-32 lg:ml-[16%] lg:grid-cols-4">
         {STEPS.map((step, i) => (
           <motion.li
             key={step.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 80, rotateX: 40 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.8, delay: i * 0.1, ease }}
-            className="group bg-[#f3f5f2] p-6 transition-colors hover:bg-white lg:p-8"
+            transition={{ duration: 1.1, delay: i * 0.12, ease }}
+            whileHover={{ y: -8 }}
+            style={{ transformOrigin: "50% 100%" }}
+            className="group rounded-[1.75rem] border border-white/[0.08] bg-white/[0.025] p-6 transition-[background-color,border-color,box-shadow] duration-500 hover:border-signal/30 hover:bg-white/[0.05] hover:shadow-[0_30px_60px_-30px_rgb(76_242_119/0.35)] lg:p-7"
           >
-            <p className="font-mono text-xs tracking-[0.16em] text-ink/50 uppercase">
-              <span className="text-[#139a3a]">{String(i + 1).padStart(2, "0")}</span> · {step.phase}
-            </p>
-            <h3 className="mt-8 text-3xl font-light">{step.title}</h3>
-            <p className="mt-4 font-mono text-[0.82rem] leading-relaxed text-ink/65">{step.body}</p>
-            <span className="mt-8 block h-px w-10 bg-ink/20 transition-all duration-500 group-hover:w-full group-hover:bg-[#139a3a]" />
+            <div className="flex items-center justify-between">
+              <span className="flex size-10 items-center justify-center rounded-full border border-signal/30 bg-signal/10 text-sm text-signal tabular-nums">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-mono">
+                {step.phase}
+              </span>
+            </div>
+            <h3 className="mt-10 text-3xl font-light transition-colors group-hover:text-brand-green">
+              {step.title}
+            </h3>
+            <p className="mt-3 text-[0.95rem] leading-relaxed text-mono">{step.body}</p>
           </motion.li>
         ))}
       </ol>
@@ -111,10 +119,10 @@ export function Process() {
       <dl className="mt-24 grid grid-cols-2 gap-y-12 lg:ml-[16%] lg:grid-cols-4">
         {STATS.map((s) => (
           <div key={s.label} className="flex flex-col-reverse lg:pl-8">
-            <dt className="mt-3 font-mono text-xs tracking-[0.16em] text-ink/55 uppercase">
+            <dt className="eyebrow mt-3 text-mono">
               {s.label}
             </dt>
-            <dd className="display text-6xl font-light sm:text-7xl">
+            <dd className="display text-gradient text-6xl font-light sm:text-7xl">
               <Counter to={s.value} suffix={s.suffix} />
             </dd>
           </div>
@@ -126,7 +134,6 @@ export function Process() {
         alt="Technician in a clean-room suit operating laboratory automation equipment"
         index={4}
         caption="Validated in real labs, not just in staging"
-        tone="light"
         aspect="aspect-[16/9] lg:aspect-[21/9]"
         sizes="(min-width: 1024px) 80vw, 100vw"
         className="mt-28 lg:ml-[16%]"

@@ -26,7 +26,7 @@ export function ScaleRuler() {
         style={{ top }}
         className="absolute right-0 flex -translate-y-1/2 items-center"
       >
-        <span className="rounded-sm border border-white/10 bg-[#141a16] px-2 py-0.5 font-mono text-[0.68rem] text-signal tabular-nums">
+        <span className="rounded-full border border-white/10 bg-[#141a16] px-2.5 py-0.5 font-mono text-[0.68rem] text-signal tabular-nums">
           {label}
         </span>
         <span className="h-px w-6 bg-signal glow-signal" />

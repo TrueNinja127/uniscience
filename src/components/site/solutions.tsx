@@ -86,22 +86,23 @@ function StartOrb() {
 export function Solutions() {
   return (
     <TraceSection id="solutions" from={54} to={50} jog={40} innerClassName="py-24 lg:py-32">
+      <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 70, rotateX: 26, transformPerspective: 1200 }}
+        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.9, ease }}
         className="max-w-xl lg:w-[44%]"
       >
         <SectionLabel index={3} label="Use cases" />
-        <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
+        <h2 className="display mt-6 text-[clamp(2.4rem,4.4vw,4rem)]">
           <span className="text-dim">What we</span>
           <br />
           solve
         </h2>
-        <p className="mt-10 font-mono text-sm leading-relaxed text-foreground/80">
+        <p className="mt-10 text-[0.95rem] leading-relaxed text-foreground/80">
           We start with a specific scientific or operational problem and engineer
-          software that solves it — measurably, and in production.
+          software that solves it: measurably, and in production.
         </p>
       </motion.div>
       <Figure
@@ -110,8 +111,9 @@ export function Solutions() {
         index={2}
         caption="From the sample to the system"
         aspect="aspect-[4/3]"
-        className="mt-16 lg:absolute lg:top-28 lg:right-0 lg:mt-0 lg:w-[40%]"
+        className="lg:ml-auto lg:w-[40%]"
       />
+      </div>
 
       <div className="mt-20 flex flex-col gap-12 lg:mt-28 lg:flex-row lg:gap-0">
         <ul className="space-y-12 lg:w-[44%] lg:pt-8">

@@ -15,7 +15,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const SERVICES = [
   {
     name: "AI & Machine Learning",
-    body: "Custom models for prediction, vision and optimisation — trained on your data, evaluated against your scientific baselines and deployed with full MLOps.",
+    body: "Custom models for prediction, vision and optimisation. Trained on your data, evaluated against your scientific baselines and deployed with full MLOps.",
     tags: ["PyTorch", "MLOps", "Evaluation"],
     photo: devTeam,
   },
@@ -27,7 +27,7 @@ const SERVICES = [
   },
   {
     name: "Scientific Computing & HPC",
-    body: "Simulation, bioinformatics and numerical workloads modernised for cloud GPUs and clusters — typically 10× faster and far cheaper to run.",
+    body: "Simulation, bioinformatics and numerical workloads modernised for cloud GPUs and clusters, typically 10× faster and far cheaper to run.",
     tags: ["CUDA", "Slurm", "Rust"],
     photo: serverRacks,
   },
@@ -45,7 +45,7 @@ const SERVICES = [
   },
   {
     name: "Web & Mobile Products",
-    body: "Fast, accessible applications that make complex science feel simple — from internal lab tools to customer-facing platforms.",
+    body: "Fast, accessible applications that make complex science feel simple, from internal lab tools to customer-facing platforms.",
     tags: ["Next.js", "React Native", "Design systems"],
     photo: devTeam,
   },
@@ -103,7 +103,7 @@ function ServiceItem({
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease }}
-            className="overflow-hidden font-mono text-sm leading-relaxed text-mono lg:hidden"
+            className="overflow-hidden text-[0.95rem] leading-relaxed text-mono lg:hidden"
           >
             <span className="block pb-4">{body}</span>
           </motion.p>
@@ -120,23 +120,23 @@ export function Services() {
   return (
     <TraceSection id="services" from={47.5} to={54} jog={60} innerClassName="py-24 lg:py-32">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 70, rotateX: 26, transformPerspective: 1200 }}
+        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.9, ease }}
         className="flex flex-col gap-10 lg:flex-row lg:items-end"
       >
         <div className="lg:w-[44%]">
           <SectionLabel index={2} label="Capabilities" />
-          <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
+          <h2 className="display mt-6 text-[clamp(2.4rem,4.4vw,4rem)]">
             <span className="text-dim">What we</span>
             <br />
             build
           </h2>
         </div>
-        <p className="max-w-md font-mono text-sm leading-relaxed text-mono lg:ml-auto lg:w-[38%]">
+        <p className="max-w-md text-[0.95rem] leading-relaxed text-mono lg:ml-auto lg:w-[38%]">
           Eight disciplines under one roof. Every squad combines domain scientists,
-          ML engineers and product designers — so nothing gets lost in translation.
+          ML engineers and product designers, so nothing gets lost in translation.
         </p>
       </motion.div>
 
@@ -156,7 +156,7 @@ export function Services() {
 
         <div className="hidden lg:ml-auto lg:block lg:w-[38%]">
           <div className="sticky top-[18vh] min-h-64">
-            <div className="relative mb-8 aspect-[16/10] overflow-hidden">
+            <div className="relative mb-8 aspect-[16/10] overflow-hidden rounded-[1.75rem] border border-white/10 shadow-[0_40px_80px_-30px_rgb(0_0_0/0.8)]">
               <AnimatePresence initial={false}>
                 <motion.div
                   key={s.photo.src}
@@ -177,8 +177,6 @@ export function Services() {
                 </motion.div>
               </AnimatePresence>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent" />
-              <span aria-hidden className="absolute top-0 left-0 size-5 border-t border-l border-signal" />
-              <span aria-hidden className="absolute right-0 bottom-0 size-5 border-r border-b border-signal" />
             </div>
             <AnimatePresence mode="wait">
               <motion.div
@@ -188,16 +186,16 @@ export function Services() {
                 exit={{ opacity: 0, y: -14 }}
                 transition={{ duration: 0.35, ease }}
               >
-                <p className="font-mono text-xs tracking-[0.2em] text-signal">
+                <p className="text-xs tracking-[0.2em] text-signal">
                   {String(active + 1).padStart(2, "0")} / {String(SERVICES.length).padStart(2, "0")}
                 </p>
                 <h3 className="mt-4 text-3xl font-light text-brand-green">{s.name}</h3>
-                <p className="mt-5 font-mono text-sm leading-relaxed text-mono">{s.body}</p>
+                <p className="mt-5 text-[0.95rem] leading-relaxed text-mono">{s.body}</p>
                 <ul className="mt-6 flex flex-wrap gap-2">
                   {s.tags.map((t) => (
                     <li
                       key={t}
-                      className="border border-white/10 px-2.5 py-1 font-mono text-[0.7rem] text-foreground/70"
+                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-foreground/75"
                     >
                       {t}
                     </li>

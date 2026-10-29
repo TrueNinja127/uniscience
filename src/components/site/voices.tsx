@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// Placeholder testimonials — replace with real client quotes.
+// Placeholder testimonials: replace with real client quotes.
 const QUOTES = [
   {
     quote:
@@ -24,7 +24,7 @@ const QUOTES = [
   },
   {
     quote:
-      "The rare team that speaks both science and software fluently. They challenged our assumptions — and the product is better for it.",
+      "The rare team that speaks both science and software fluently. They challenged our assumptions, and the product is better for it.",
     name: "Lukas Brenner",
     role: "CTO, Quanta Materials",
   },
@@ -39,7 +39,7 @@ const QUOTES = [
 const FAQS = [
   {
     q: "What kinds of companies do you work with?",
-    a: "Research-driven startups, scale-ups and enterprise R&D groups — in life sciences, climate, materials, manufacturing and finance — wherever complex data meets demanding users.",
+    a: "Research-driven startups, scale-ups and enterprise R&D groups in life sciences, climate, materials, manufacturing and finance: wherever complex data meets demanding users.",
   },
   {
     q: "How quickly can we get started?",
@@ -51,7 +51,7 @@ const FAQS = [
   },
   {
     q: "Who owns the code and IP?",
-    a: "You do — 100%. Source code, models, designs and documentation are transferred to you, with no lock-in to our tooling or people.",
+    a: "You do, 100%. Source code, models, designs and documentation are transferred to you, with no lock-in to our tooling or people.",
   },
   {
     q: "Can you work alongside our in-house team?",
@@ -86,9 +86,9 @@ function Testimonials() {
               {q.quote}
               <span className="text-signal">”</span>
             </blockquote>
-            <figcaption className="mt-8 font-mono text-sm">
+            <figcaption className="mt-8 text-sm">
               <span className="text-foreground">{q.name}</span>
-              <span className="text-mono"> — {q.role}</span>
+              <span className="text-mono"> · {q.role}</span>
             </figcaption>
           </motion.figure>
         </AnimatePresence>
@@ -103,7 +103,7 @@ function Testimonials() {
             onClick={() => setIndex(i)}
             className="group flex w-24 flex-col gap-2 text-left"
           >
-            <span className={cn("font-mono text-xs", i === index ? "text-signal" : "text-dim")}>
+            <span className={cn("text-xs", i === index ? "text-signal" : "text-dim")}>
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="relative h-px w-full overflow-hidden bg-white/15">
@@ -127,21 +127,21 @@ function Faq() {
   return (
     <div id="faq" className="scroll-mt-28">
       <SectionLabel index={7} label="FAQ" />
-      <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
+      <h2 className="display mt-6 text-[clamp(2.4rem,4.4vw,4rem)]">
         <span className="text-dim">Questions,</span>
         <br />
         <span className="text-brand-green">answered</span>
       </h2>
       <Accordion type="single" collapsible defaultValue="item-0" className="mt-12">
         {FAQS.map((f, i) => (
-          <AccordionItem key={f.q} value={`item-${i}`} className="border-white/10">
-            <AccordionTrigger className="items-center gap-6 py-6 text-left text-xl font-light hover:no-underline sm:text-2xl [&>svg]:text-signal">
+          <AccordionItem key={f.q} value={`item-${i}`} className="mb-3 rounded-[1.5rem] border border-white/10 bg-white/[0.02] px-6 transition-colors duration-300 not-last:border-b data-[state=open]:border-signal/30 data-[state=open]:bg-white/[0.045]">
+            <AccordionTrigger className="items-center gap-6 py-5 text-left text-lg font-light hover:no-underline sm:text-xl [&>svg]:text-signal">
               <span className="flex items-baseline gap-5">
-                <span className="font-mono text-xs text-signal">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-xs text-signal">{String(i + 1).padStart(2, "0")}</span>
                 {f.q}
               </span>
             </AccordionTrigger>
-            <AccordionContent className="pl-10 font-mono text-sm leading-relaxed text-mono">
+            <AccordionContent className="pl-10 text-[0.95rem] leading-relaxed text-mono">
               {f.a}
             </AccordionContent>
           </AccordionItem>

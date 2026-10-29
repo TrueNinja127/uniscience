@@ -20,7 +20,7 @@ const PRINCIPLES = [
   },
   {
     title: ["Product-grade", "engineering"],
-    body: "Clean architecture, automated testing and observability by default — software that survives contact with real users and real data.",
+    body: "Clean architecture, automated testing and observability by default: software that survives contact with real users and real data.",
   },
   {
     title: ["Seamless", "integration"],
@@ -39,7 +39,7 @@ export function Approach() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
-            className="display mt-6 text-[clamp(2.75rem,5.6vw,5rem)]"
+            className="display mt-6 text-[clamp(2.5rem,4.8vw,4.4rem)]"
           >
             {["One hypothesis.", "One team.", "Endless impact."].map((t, i) => (
               <span key={t} className="block overflow-hidden">
@@ -59,9 +59,9 @@ export function Approach() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.6 }}
-              className="mt-14 flex w-max flex-col items-center gap-2 rounded-md border border-signal/70 px-6 py-4 font-mono text-[0.7rem] text-mono transition-colors hover:bg-signal/10 hover:text-foreground"
+              className="group mt-12 inline-flex w-max items-center gap-3 rounded-full border border-white/15 bg-white/[0.03] py-2 pr-5 pl-2 text-sm text-foreground/80 backdrop-blur-md transition-colors hover:border-signal/50 hover:text-foreground"
             >
-              <ArrowDown className="size-5 text-signal" />
+              <span className="flex size-8 items-center justify-center rounded-full bg-signal/15"><ArrowDown className="size-4 text-signal transition-transform group-hover:translate-y-0.5" /></span>
               Scroll to explore
             </motion.a>
           </div>
@@ -80,8 +80,8 @@ export function Approach() {
           {PRINCIPLES.map((p, i) => (
             <motion.div
               key={p.body}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 70, rotateX: 26, transformPerspective: 1200 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.8, delay: (i % 2) * 0.12, ease }}
               className={i % 2 === 1 ? "sm:mt-24" : ""}
@@ -91,7 +91,7 @@ export function Approach() {
                 <br />
                 {p.title[1]}
               </h3>
-              <p className="mt-6 font-mono text-sm leading-relaxed text-mono">{p.body}</p>
+              <p className="mt-6 text-[0.95rem] leading-relaxed text-mono">{p.body}</p>
             </motion.div>
           ))}
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useTransform, type MotionValue } from "motion/react";
 import heroPhoto from "@/assets/photos/hero-engineer.jpg";
 
 /*
@@ -17,15 +17,17 @@ const BOKEH = [
   { x: "70%", y: "30%", s: 14, c: "rgba(255,190,110,0.25)" },
 ];
 
-export function HeroScene() {
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 900], [0, 160]);
+export function HeroScene({ progress }: { progress: MotionValue<number> }) {
+  // Parallax depth: the photo drifts slower than the page and pushes toward the camera.
+  const y = useTransform(progress, [0, 1], ["0%", "28%"]);
+  const scale = useTransform(progress, [0, 1], [1, 1.22]);
+  const glowY = useTransform(progress, [0, 1], ["0%", "-40%"]);
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* Photo: right-weighted on desktop, full-bleed behind text on mobile */}
       <motion.div
-        style={{ y }}
+        style={{ y, scale }}
         className="absolute inset-y-0 right-0 w-full lg:w-[72%]"
       >
         <motion.div
@@ -46,9 +48,11 @@ export function HeroScene() {
         </motion.div>
       </motion.div>
 
-      {/* Brand light spilling from the screens */}
-      <div className="absolute -top-40 right-[-5%] h-[700px] w-[800px] rounded-full bg-signal/[0.12] mix-blend-screen blur-[140px]" />
-      <div className="absolute top-1/3 right-[25%] h-[420px] w-[520px] rounded-full bg-brand-sky/[0.12] mix-blend-screen blur-[120px]" />
+      {/* Brand light spilling from the screens: a nearer layer, so it moves faster */}
+      <motion.div style={{ y: glowY }} className="absolute inset-0">
+        <div className="absolute -top-40 right-[-5%] h-[700px] w-[800px] rounded-full bg-signal/[0.12] mix-blend-screen blur-[140px]" />
+        <div className="absolute top-1/3 right-[25%] h-[420px] w-[520px] rounded-full bg-brand-sky/[0.12] mix-blend-screen blur-[120px]" />
+      </motion.div>
 
       {BOKEH.map((b, i) => (
         <motion.span

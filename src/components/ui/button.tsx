@@ -19,9 +19,9 @@ const buttonVariants = cva(
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
         signal:
-          "relative overflow-hidden rounded-none bg-brand-gradient font-sans tracking-[0.12em] text-ink uppercase transition-[box-shadow,filter] hover:shadow-[0_0_28px_-4px] hover:shadow-signal/70 hover:brightness-110",
+          "relative overflow-hidden rounded-full bg-brand-gradient font-medium text-ink transition-[box-shadow,filter,transform] hover:shadow-[0_8px_32px_-6px] hover:shadow-signal/60 hover:brightness-110",
         "signal-outline":
-          "rounded-none border-signal/70 font-sans tracking-[0.12em] text-signal uppercase hover:bg-signal/10 hover:shadow-[0_0_24px_-6px] hover:shadow-signal/60",
+          "rounded-full border-white/20 bg-white/[0.03] font-medium text-foreground backdrop-blur-md hover:border-signal/60 hover:bg-signal/10 hover:text-signal",
       },
       size: {
         default:
@@ -29,7 +29,7 @@ const buttonVariants = cva(
         xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        xl: "h-12 gap-2 px-8 text-[0.95rem]",
+        xl: "h-12 gap-2 rounded-full px-7 text-[0.95rem]",
         icon: "size-8",
         "icon-xs":
           "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",

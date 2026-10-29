@@ -3,31 +3,24 @@
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-/** Editorial section marker: "02 / Capabilities" with a drawn signal tick. */
+/** Section marker styled like the logo tagline: a numbered pill and a drawn signal tick. */
 export function SectionLabel({
   index,
   label,
-  tone = "dark",
   className,
 }: {
   index: number;
   label: string;
-  tone?: "dark" | "light";
   className?: string;
 }) {
-  const accent = tone === "dark" ? "text-signal" : "text-[#139a3a]";
   return (
-    <div
-      className={cn(
-        "flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.22em] uppercase",
-        tone === "dark" ? "text-mono" : "text-ink/55",
-        className,
-      )}
-    >
-      <span className={accent}>{String(index).padStart(2, "0")}</span>
+    <div className={cn("eyebrow flex items-center gap-3 text-mono", className)}>
+      <span className="flex h-6 min-w-6 items-center justify-center rounded-full border border-signal/40 bg-signal/10 px-2 text-[0.62rem] tracking-[0.08em] text-signal tabular-nums">
+        {String(index).padStart(2, "0")}
+      </span>
       <motion.span
         aria-hidden
-        className={cn("h-px w-10 origin-left", tone === "dark" ? "bg-signal" : "bg-[#139a3a]")}
+        className="h-px w-10 origin-left bg-gradient-to-r from-signal to-transparent"
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}

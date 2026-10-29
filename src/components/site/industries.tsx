@@ -37,7 +37,7 @@ function Row({ label, index }: { label: string; index: number }) {
     <li ref={ref} className="relative flex h-20 items-center">
       <span
         className={cn(
-          "font-mono text-[0.95rem] transition-colors duration-500 lg:w-[56%] lg:pr-10 lg:text-right",
+          "text-[0.95rem] transition-colors duration-500 lg:w-[56%] lg:pr-10 lg:text-right",
           lit ? "text-foreground" : passed ? "text-mono" : "text-dim",
         )}
       >
@@ -55,7 +55,7 @@ function Row({ label, index }: { label: string; index: number }) {
       />
       <span
         className={cn(
-          "ml-auto font-mono text-sm tabular-nums transition-colors duration-500 lg:absolute lg:left-[calc(56%+28px)] lg:ml-0",
+          "ml-auto text-sm tabular-nums transition-colors duration-500 lg:absolute lg:left-[calc(56%+28px)] lg:ml-0",
           lit ? "text-signal" : "text-dim",
         )}
       >
@@ -69,19 +69,19 @@ export function Industries() {
   return (
     <TraceSection id="industries" from={50} to={LINE_X} jog={50} innerClassName="py-24 lg:py-32">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 70, rotateX: 26, transformPerspective: 1200 }}
+        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.9, ease }}
         className="lg:w-[42%]"
       >
         <SectionLabel index={4} label="Industries" />
-        <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
+        <h2 className="display mt-6 text-[clamp(2.4rem,4.4vw,4rem)]">
           <span className="text-dim">Industries</span>
           <br />
           <span className="text-brand-green">we serve</span>
         </h2>
-        <p className="mt-8 max-w-md font-mono text-sm leading-relaxed text-mono">
+        <p className="mt-8 max-w-md text-[0.95rem] leading-relaxed text-mono">
           Twelve domains, one method. Wherever complex data meets demanding users,
           our teams already speak the language.
         </p>
