@@ -159,18 +159,6 @@ export function Footer() {
             <BackToTop />
           </div>
         </div>
-
-        <p className="pb-8 text-xs leading-relaxed text-dim">
-          Photography via{" "}
-          <a href="https://unsplash.com" className="underline-offset-2 hover:underline">
-            Unsplash
-          </a>
-          : Abu Saeid, Chidera Faustina Okeke, Compagnons,{" "}
-          <a href="https://www.domaintechnik.at/" className="underline-offset-2 hover:underline">
-            Domaintechnik
-          </a>
-          , Toon Lambrechts, Bermix Studio, National Cancer Institute, CDC.
-        </p>
       </div>
     </footer>
   );
