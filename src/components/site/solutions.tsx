@@ -2,8 +2,10 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { LogoMark } from "@/components/brand/logo";
+import { SectionLabel } from "@/components/site/section-label";
 import { TraceSection } from "@/components/site/trace";
+import { Figure } from "@/components/site/figure";
+import microscopeCloseup from "@/assets/photos/microscope-closeup.jpg";
 import { cn } from "@/lib/utils";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -83,7 +85,7 @@ function StartOrb() {
 
 export function Solutions() {
   return (
-    <TraceSection id="solutions" from={54} to={50} jog={40} innerClassName="py-28 lg:py-36">
+    <TraceSection id="solutions" from={54} to={50} jog={40} innerClassName="py-24 lg:py-32">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -91,21 +93,27 @@ export function Solutions() {
         transition={{ duration: 0.9, ease }}
         className="max-w-xl lg:w-[44%]"
       >
-        <div className="flex items-center gap-6">
-          <LogoMark className="size-16 sm:size-20" sizes="80px" />
-          <h2 className="display text-[clamp(2.75rem,5vw,4.5rem)] text-dim">
-            What we
-            <br />
-            solve
-          </h2>
-        </div>
+        <SectionLabel index={3} label="Use cases" />
+        <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
+          <span className="text-dim">What we</span>
+          <br />
+          solve
+        </h2>
         <p className="mt-10 font-mono text-sm leading-relaxed text-foreground/80">
           We start with a specific scientific or operational problem and engineer
           software that solves it — measurably, and in production.
         </p>
       </motion.div>
+      <Figure
+        src={microscopeCloseup}
+        alt="Close-up of microscope objective lenses above a sample slide"
+        index={2}
+        caption="From the sample to the system"
+        aspect="aspect-[4/3]"
+        className="mt-16 lg:absolute lg:top-28 lg:right-0 lg:mt-0 lg:w-[40%]"
+      />
 
-      <div className="mt-24 flex flex-col gap-12 lg:mt-32 lg:flex-row lg:gap-0">
+      <div className="mt-20 flex flex-col gap-12 lg:mt-28 lg:flex-row lg:gap-0">
         <ul className="space-y-12 lg:w-[44%] lg:pt-8">
           {LEFT.map((l) => (
             <Item key={l[0]} lines={l} align="right" />

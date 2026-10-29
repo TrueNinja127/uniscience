@@ -3,6 +3,9 @@
 import { motion } from "motion/react";
 import { ArrowDown } from "lucide-react";
 import { TraceSection } from "@/components/site/trace";
+import { Figure } from "@/components/site/figure";
+import { SectionLabel } from "@/components/site/section-label";
+import labTeam from "@/assets/photos/lab-team.jpg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -27,15 +30,16 @@ const PRINCIPLES = [
 
 export function Approach() {
   return (
-    <TraceSection id="approach" from={50} to={47.5} jog={40} innerClassName="py-28 lg:py-40">
+    <TraceSection id="approach" from={50} to={47.5} jog={40} innerClassName="py-24 lg:py-32">
       <div className="flex flex-col gap-20 lg:flex-row lg:gap-0">
         <div className="lg:w-[44%]">
           <div className="lg:sticky lg:top-32">
+          <SectionLabel index={1} label="Approach" />
           <motion.h2
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
-            className="display text-[clamp(2.75rem,5.6vw,5rem)]"
+            className="display mt-6 text-[clamp(2.75rem,5.6vw,5rem)]"
           >
             {["One hypothesis.", "One team.", "Endless impact."].map((t, i) => (
               <span key={t} className="block overflow-hidden">
@@ -63,7 +67,16 @@ export function Approach() {
           </div>
         </div>
 
-        <div className="grid gap-x-12 gap-y-16 sm:grid-cols-2 lg:ml-auto lg:w-[48%]">
+        <div className="lg:ml-auto lg:w-[48%]">
+        <Figure
+          src={labTeam}
+          alt="Two scientists in lab coats working at computers in a research laboratory"
+          index={1}
+          caption="Research and engineering at one bench"
+          aspect="aspect-[16/10]"
+          className="mb-20"
+        />
+        <div className="grid gap-x-12 gap-y-16 sm:grid-cols-2">
           {PRINCIPLES.map((p, i) => (
             <motion.div
               key={p.body}
@@ -81,6 +94,7 @@ export function Approach() {
               <p className="mt-6 font-mono text-sm leading-relaxed text-mono">{p.body}</p>
             </motion.div>
           ))}
+        </div>
         </div>
       </div>
     </TraceSection>

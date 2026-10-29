@@ -4,6 +4,9 @@ import { useEffect, useRef } from "react";
 import { animate, motion, useInView } from "motion/react";
 import { Logo } from "@/components/brand/logo";
 import { TraceSection } from "@/components/site/trace";
+import { Figure } from "@/components/site/figure";
+import { SectionLabel } from "@/components/site/section-label";
+import cleanroom from "@/assets/photos/cleanroom.jpg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -73,11 +76,16 @@ export function Process() {
         className="lg:ml-[62%]"
       >
         <Logo variant="dark" className="h-10" />
-        <h2 className="display mt-10 text-[clamp(2.75rem,5vw,4.5rem)]">
+        <SectionLabel index={5} label="Process" tone="light" className="mt-12" />
+        <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
           <span className="text-ink/35">From hypothesis</span>
           <br />
           to production
         </h2>
+        <p className="mt-8 max-w-sm font-mono text-sm leading-relaxed text-ink/60">
+          A scientific method for building software: transparent, evidence-driven,
+          and fast — you always know what we are building and why.
+        </p>
       </motion.div>
 
       <ol className="mt-24 grid gap-px bg-ink/10 sm:grid-cols-2 lg:mt-32 lg:ml-[16%] lg:grid-cols-4">
@@ -112,6 +120,17 @@ export function Process() {
           </div>
         ))}
       </dl>
+
+      <Figure
+        src={cleanroom}
+        alt="Technician in a clean-room suit operating laboratory automation equipment"
+        index={4}
+        caption="Validated in real labs, not just in staging"
+        tone="light"
+        aspect="aspect-[16/9] lg:aspect-[21/9]"
+        sizes="(min-width: 1024px) 80vw, 100vw"
+        className="mt-28 lg:ml-[16%]"
+      />
     </TraceSection>
   );
 }

@@ -15,6 +15,8 @@ export default function Home() {
     <>
       <Header />
       <ScaleRuler />
+      {/* Fine film grain for photographic depth */}
+      <div aria-hidden className="grain pointer-events-none fixed inset-0 z-[45] opacity-[0.05] mix-blend-overlay" />
       <main className="flex-1 overflow-x-clip">
         <Hero />
         <Approach />

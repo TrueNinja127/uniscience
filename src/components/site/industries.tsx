@@ -3,6 +3,9 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { TraceSection } from "@/components/site/trace";
+import { Figure } from "@/components/site/figure";
+import { SectionLabel } from "@/components/site/section-label";
+import microscopeResearch from "@/assets/photos/microscope-research.jpg";
 import { cn } from "@/lib/utils";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -64,7 +67,7 @@ function Row({ label, index }: { label: string; index: number }) {
 
 export function Industries() {
   return (
-    <TraceSection id="industries" from={50} to={LINE_X} jog={50} innerClassName="py-28 lg:py-36">
+    <TraceSection id="industries" from={50} to={LINE_X} jog={50} innerClassName="py-24 lg:py-32">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -72,7 +75,8 @@ export function Industries() {
         transition={{ duration: 0.9, ease }}
         className="lg:w-[42%]"
       >
-        <h2 className="display text-[clamp(2.75rem,5vw,4.5rem)]">
+        <SectionLabel index={4} label="Industries" />
+        <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
           <span className="text-dim">Industries</span>
           <br />
           <span className="text-brand-green">we serve</span>
@@ -83,11 +87,24 @@ export function Industries() {
         </p>
       </motion.div>
 
-      <ol className="mt-20 lg:mt-28">
-        {INDUSTRIES.map((label, i) => (
-          <Row key={label} label={label} index={i} />
-        ))}
-      </ol>
+      <div className="relative mt-20 lg:mt-28">
+        <ol>
+          {INDUSTRIES.map((label, i) => (
+            <Row key={label} label={label} index={i} />
+          ))}
+        </ol>
+        <div className="absolute inset-y-0 right-0 hidden w-[30%] lg:block">
+          <Figure
+            src={microscopeResearch}
+            alt="Researcher looking through a microscope with culture dishes in the background"
+            index={3}
+            caption="Domain expertise in every squad"
+            aspect="aspect-[3/4]"
+            sizes="30vw"
+            className="sticky top-32"
+          />
+        </div>
+      </div>
     </TraceSection>
   );
 }

@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
+import serverRacks from "@/assets/photos/server-racks.jpg";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { LogoMark } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { TraceSection } from "@/components/site/trace";
+import { SectionLabel } from "@/components/site/section-label";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -19,6 +22,20 @@ export function Contact() {
       end={150}
       drawOffset={["start 55%", "end 85%"]}
       className="overflow-hidden"
+      background={
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <Image
+            src={serverRacks}
+            alt=""
+            fill
+            placeholder="blur"
+            sizes="100vw"
+            className="object-cover opacity-45"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-ink via-ink/40 to-ink" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,var(--color-ink)_80%)]" />
+        </div>
+      }
       innerClassName="pt-[22rem] pb-[150px] lg:pt-[24rem]"
     >
       <div
@@ -48,6 +65,7 @@ export function Contact() {
           transition={{ duration: 0.9, delay: 0.15, ease }}
           className="flex flex-col justify-end gap-8 lg:ml-auto lg:w-[45%]"
         >
+          <SectionLabel index={8} label="Contact" />
           <p className="max-w-md font-mono text-sm leading-relaxed text-foreground/80">
             Tell us about your challenge. In a free 30-minute session our principal
             engineers will map out an approach, timeline and budget — no strings attached.

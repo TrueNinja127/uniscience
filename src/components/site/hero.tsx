@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowDown, Check, Play } from "lucide-react";
-import { Logo, LogoMark } from "@/components/brand/logo";
+import { ArrowDown, ArrowRight, Check, Play } from "lucide-react";
+import { LogoMark } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { HeroScene } from "@/components/site/hero-scene";
 
@@ -31,10 +31,48 @@ function Line({ children, delay }: { children: React.ReactNode; delay: number })
   );
 }
 
+const STACK = [
+  "PyTorch", "NVIDIA CUDA", "Kubernetes", "AWS", "Azure", "Google Cloud",
+  "Databricks", "Snowflake", "Kafka", "Terraform", "Rust", "Python",
+  "Next.js", "React Native", "PostgreSQL", "Ray",
+];
+
+/** Technologies we build with, scrolling like an instrument readout. */
+function TechStrip() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.6, duration: 1 }}
+      className="relative mx-auto mt-16 max-w-7xl px-5 sm:px-8 lg:mt-20"
+    >
+      <div className="flex items-center gap-6 border-y border-white/10 py-4">
+        <span className="shrink-0 font-mono text-[0.65rem] tracking-[0.2em] text-signal uppercase">
+          Built with
+        </span>
+        <div className="group flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+          <ul className="flex shrink-0 animate-marquee items-center gap-10 pr-10 group-hover:[animation-play-state:paused]">
+            {[...STACK, ...STACK].map((t, i) => (
+              <li
+                key={i}
+                aria-hidden={i >= STACK.length}
+                className="flex shrink-0 items-center gap-10 font-mono text-xs tracking-[0.12em] text-foreground/55 uppercase"
+              >
+                {t}
+                <span className="size-1 rotate-45 bg-signal/60" />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 /** The horizon the trace starts from: a line with a raised platform and the mark on top. */
 function Surface() {
   return (
-    <div className="relative mx-auto mt-16 hidden h-36 max-w-7xl px-5 sm:px-8 lg:block">
+    <div className="relative mx-auto mt-14 hidden h-36 max-w-7xl px-5 sm:px-8 lg:block">
       <svg
         aria-hidden
         viewBox="0 0 1000 100"
@@ -90,6 +128,17 @@ export function Hero() {
       <HeroScene />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <motion.a
+          href="#services"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease }}
+          className="group mb-8 inline-flex items-center gap-3 border border-white/10 bg-ink/60 py-1.5 pr-4 pl-1.5 font-mono text-[0.7rem] tracking-[0.14em] uppercase backdrop-blur-md transition-colors hover:border-signal/50"
+        >
+          <span className="bg-brand-gradient px-2 py-0.5 text-ink">New</span>
+          <span className="text-foreground/80">Uniscience Fusion — AI research platform</span>
+          <ArrowRight className="size-3.5 text-signal transition-transform group-hover:translate-x-0.5" />
+        </motion.a>
         <h1 className="display max-w-4xl text-[clamp(2.9rem,7.6vw,6.6rem)] normal-case">
           <Line delay={0.15}>Complex science.</Line>
           <Line delay={0.3}>
@@ -113,10 +162,11 @@ export function Hero() {
             transition={{ delay: 0.9, duration: 0.8, ease }}
             className="flex flex-col items-start gap-8"
           >
-            <Logo priority className="h-14 sm:h-[4.5rem]" />
             <div className="flex flex-wrap gap-3">
               <Button variant="signal" size="xl" asChild>
-                <a href="#contact">Start</a>
+                <a href="#contact">
+                  Start a project <ArrowRight />
+                </a>
               </Button>
               <Button variant="signal-outline" size="xl" asChild>
                 <a href="#approach">
@@ -124,6 +174,19 @@ export function Hero() {
                 </a>
               </Button>
             </div>
+            {/* Placeholder figures — replace with real company numbers. */}
+            <dl className="grid w-full max-w-lg grid-cols-3 divide-x divide-white/10 border-y border-white/10">
+              {[
+                ["250+", "Products shipped"],
+                ["40M", "End users"],
+                ["12", "Countries"],
+              ].map(([v, l]) => (
+                <div key={l} className="flex flex-col-reverse px-4 py-4 first:pl-0">
+                  <dt className="mt-1 font-mono text-[0.62rem] tracking-[0.16em] text-mono uppercase">{l}</dt>
+                  <dd className="text-3xl font-light text-foreground">{v}</dd>
+                </div>
+              ))}
+            </dl>
           </motion.div>
 
           <div className="font-mono lg:justify-self-end">
@@ -165,6 +228,7 @@ export function Hero() {
         </div>
       </div>
 
+      <TechStrip />
       <Surface />
     </section>
   );

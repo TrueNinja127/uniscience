@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { TraceSection } from "@/components/site/trace";
+import { SectionLabel } from "@/components/site/section-label";
 import { cn } from "@/lib/utils";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -70,7 +71,7 @@ function Testimonials() {
 
   return (
     <div>
-      <p className="font-mono text-xs tracking-[0.2em] text-signal uppercase">Client stories</p>
+      <SectionLabel index={6} label="Client stories" />
       <div className="relative mt-10 min-h-[22rem] sm:min-h-[19rem]">
         <AnimatePresence mode="wait">
           <motion.figure
@@ -125,7 +126,8 @@ function Testimonials() {
 function Faq() {
   return (
     <div id="faq" className="scroll-mt-28">
-      <h2 className="display text-[clamp(2.75rem,5vw,4.5rem)]">
+      <SectionLabel index={7} label="FAQ" />
+      <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
         <span className="text-dim">Questions,</span>
         <br />
         <span className="text-brand-green">answered</span>
@@ -151,7 +153,7 @@ function Faq() {
 
 export function Voices() {
   return (
-    <TraceSection id="testimonials" from={10} innerClassName="py-28 lg:py-40">
+    <TraceSection id="testimonials" from={10} innerClassName="py-24 lg:py-32">
       <div className="space-y-36 lg:ml-[16%]">
         <Testimonials />
         <Faq />

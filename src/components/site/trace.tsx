@@ -65,6 +65,7 @@ export function TraceSection({
   tone = "dark",
   className,
   innerClassName,
+  background,
   children,
 }: {
   id?: string;
@@ -83,6 +84,8 @@ export function TraceSection({
   tone?: "dark" | "light";
   className?: string;
   innerClassName?: string;
+  /** Full-bleed layer rendered behind the section content */
+  background?: React.ReactNode;
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -150,7 +153,8 @@ export function TraceSection({
         className,
       )}
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      {background}
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div ref={ref} className={cn("relative pl-8 lg:pl-0", innerClassName)}>
           {d && (
             <svg

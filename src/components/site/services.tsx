@@ -2,9 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView } from "motion/react";
-import { LogoMark } from "@/components/brand/logo";
+import { SectionLabel } from "@/components/site/section-label";
 import { TraceSection } from "@/components/site/trace";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import devTeam from "@/assets/photos/dev-team.jpg";
+import serverRacks from "@/assets/photos/server-racks.jpg";
+import labMicroscopy from "@/assets/photos/lab-microscopy.jpg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -13,41 +17,49 @@ const SERVICES = [
     name: "AI & Machine Learning",
     body: "Custom models for prediction, vision and optimisation — trained on your data, evaluated against your scientific baselines and deployed with full MLOps.",
     tags: ["PyTorch", "MLOps", "Evaluation"],
+    photo: devTeam,
   },
   {
     name: "LLM Agents & Copilots",
     body: "Research assistants and workflow agents grounded in your literature, protocols and data, with citations, guardrails and human review built in.",
     tags: ["RAG", "Agents", "Guardrails"],
+    photo: devTeam,
   },
   {
     name: "Scientific Computing & HPC",
     body: "Simulation, bioinformatics and numerical workloads modernised for cloud GPUs and clusters — typically 10× faster and far cheaper to run.",
     tags: ["CUDA", "Slurm", "Rust"],
+    photo: serverRacks,
   },
   {
     name: "Data Platforms & Pipelines",
     body: "Lakehouses, ELT and real-time streams that turn instrument output and operational data into analysis-ready, governed datasets.",
     tags: ["Lakehouse", "Kafka", "dbt"],
+    photo: serverRacks,
   },
   {
     name: "Cloud & DevOps",
     body: "Multi-region infrastructure-as-code on AWS, Azure and GCP with zero-downtime delivery, cost controls and 24/7 observability.",
     tags: ["Kubernetes", "Terraform", "FinOps"],
+    photo: serverRacks,
   },
   {
     name: "Web & Mobile Products",
     body: "Fast, accessible applications that make complex science feel simple — from internal lab tools to customer-facing platforms.",
     tags: ["Next.js", "React Native", "Design systems"],
+    photo: devTeam,
   },
   {
     name: "Lab & Device Integration",
     body: "Connect instruments, sensors, LIMS and ELNs into one data fabric with secure edge gateways and automated capture.",
     tags: ["IoT", "LIMS", "Edge"],
+    photo: labMicroscopy,
   },
   {
     name: "Security & Compliance",
     body: "SOC 2, HIPAA, GxP and GDPR-ready architectures, with security reviewed at every pull request and audit trails by design.",
     tags: ["SOC 2", "GxP", "HIPAA"],
+    photo: serverRacks,
   },
 ];
 
@@ -106,23 +118,29 @@ export function Services() {
   const s = SERVICES[active];
 
   return (
-    <TraceSection id="services" from={47.5} to={54} jog={60} innerClassName="py-28 lg:py-36">
+    <TraceSection id="services" from={47.5} to={54} jog={60} innerClassName="py-24 lg:py-32">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.9, ease }}
-        className="flex items-center gap-6 lg:w-[46%]"
+        className="flex flex-col gap-10 lg:flex-row lg:items-end"
       >
-        <LogoMark className="size-16 sm:size-20" sizes="80px" />
-        <h2 className="display text-[clamp(2.75rem,5vw,4.5rem)] text-dim">
-          What we
-          <br />
-          build
-        </h2>
+        <div className="lg:w-[44%]">
+          <SectionLabel index={2} label="Capabilities" />
+          <h2 className="display mt-6 text-[clamp(2.75rem,5vw,4.5rem)]">
+            <span className="text-dim">What we</span>
+            <br />
+            build
+          </h2>
+        </div>
+        <p className="max-w-md font-mono text-sm leading-relaxed text-mono lg:ml-auto lg:w-[38%]">
+          Eight disciplines under one roof. Every squad combines domain scientists,
+          ML engineers and product designers — so nothing gets lost in translation.
+        </p>
       </motion.div>
 
-      <div className="mt-20 flex flex-col gap-12 lg:mt-32 lg:flex-row">
+      <div className="mt-16 flex flex-col gap-12 lg:mt-24 lg:flex-row">
         <ol className="lg:w-[50%] lg:pr-10">
           {SERVICES.map((svc, i) => (
             <ServiceItem
@@ -137,7 +155,31 @@ export function Services() {
         </ol>
 
         <div className="hidden lg:ml-auto lg:block lg:w-[38%]">
-          <div className="sticky top-[38vh] min-h-64">
+          <div className="sticky top-[18vh] min-h-64">
+            <div className="relative mb-8 aspect-[16/10] overflow-hidden">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={s.photo.src}
+                  initial={{ opacity: 0, scale: 1.06 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8, ease }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={s.photo}
+                    alt=""
+                    fill
+                    placeholder="blur"
+                    sizes="(min-width: 1024px) 38vw, 0px"
+                    className="object-cover"
+                  />
+                </motion.div>
+              </AnimatePresence>
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent" />
+              <span aria-hidden className="absolute top-0 left-0 size-5 border-t border-l border-signal" />
+              <span aria-hidden className="absolute right-0 bottom-0 size-5 border-r border-b border-signal" />
+            </div>
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
