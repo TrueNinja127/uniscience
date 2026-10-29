@@ -18,10 +18,10 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
-        brand:
-          "relative overflow-hidden bg-brand-gradient text-white shadow-[0_8px_30px_-8px] shadow-brand-sky/60 before:absolute before:inset-0 before:bg-white/0 before:transition-colors hover:before:bg-white/10 hover:shadow-brand-teal/70",
-        glass:
-          "border-white/10 bg-white/[0.04] text-foreground backdrop-blur-md hover:bg-white/[0.08]",
+        signal:
+          "relative overflow-hidden rounded-none bg-brand-gradient font-sans tracking-[0.12em] text-ink uppercase transition-[box-shadow,filter] hover:shadow-[0_0_28px_-4px] hover:shadow-signal/70 hover:brightness-110",
+        "signal-outline":
+          "rounded-none border-signal/70 font-sans tracking-[0.12em] text-signal uppercase hover:bg-signal/10 hover:shadow-[0_0_24px_-6px] hover:shadow-signal/60",
       },
       size: {
         default:
@@ -29,7 +29,7 @@ const buttonVariants = cva(
         xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        xl: "h-12 gap-2 rounded-xl px-6 text-[0.95rem]",
+        xl: "h-12 gap-2 px-8 text-[0.95rem]",
         icon: "size-8",
         "icon-xs":
           "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",

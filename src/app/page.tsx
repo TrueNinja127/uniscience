@@ -1,29 +1,29 @@
-import { Navbar } from "@/components/site/navbar";
+import { Header } from "@/components/site/header";
+import { ScaleRuler } from "@/components/site/scale-ruler";
 import { Hero } from "@/components/site/hero";
-import { LogoCloud } from "@/components/site/logo-cloud";
-import { Stats } from "@/components/site/stats";
+import { Approach } from "@/components/site/approach";
 import { Services } from "@/components/site/services";
-import { Platform } from "@/components/site/platform";
+import { Solutions } from "@/components/site/solutions";
+import { Industries } from "@/components/site/industries";
 import { Process } from "@/components/site/process";
-import { Testimonials } from "@/components/site/testimonials";
-import { Faq } from "@/components/site/faq";
-import { Cta } from "@/components/site/cta";
+import { Voices } from "@/components/site/voices";
+import { Contact } from "@/components/site/contact";
 import { Footer } from "@/components/site/footer";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <Header />
+      <ScaleRuler />
       <main className="flex-1 overflow-x-clip">
         <Hero />
-        <LogoCloud />
-        <Stats />
+        <Approach />
         <Services />
-        <Platform />
+        <Solutions />
+        <Industries />
         <Process />
-        <Testimonials />
-        <Faq />
-        <Cta />
+        <Voices />
+        <Contact />
       </main>
       <Footer />
     </>

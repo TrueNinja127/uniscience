@@ -1,255 +1,171 @@
 "use client";
 
-import { motion } from "motion/react";
-import {
-  ArrowUpRight,
-  BrainCircuit,
-  CloudCog,
-  DatabaseZap,
-  FlaskConical,
-  ShieldCheck,
-  Smartphone,
-} from "lucide-react";
-import { Reveal } from "@/components/motion/reveal";
-import { SectionHeading } from "@/components/site/section-heading";
-import { SpotlightCard } from "@/components/site/spotlight-card";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView } from "motion/react";
+import { LogoMark } from "@/components/brand/logo";
+import { TraceSection } from "@/components/site/trace";
 import { cn } from "@/lib/utils";
 
-function NeuralVisual() {
-  const layers = [
-    [30, 70, 110],
-    [20, 55, 90, 125],
-    [40, 75, 110],
-    [75],
-  ];
-  const xs = [30, 130, 230, 320];
-  const edges: [number, number, number, number][] = [];
-  layers.forEach((layer, li) => {
-    if (li === layers.length - 1) return;
-    layer.forEach((y1) =>
-      layers[li + 1].forEach((y2) => edges.push([xs[li], y1, xs[li + 1], y2])),
-    );
-  });
+const ease = [0.22, 1, 0.36, 1] as const;
 
-  return (
-    <svg viewBox="0 0 350 150" className="h-full w-full">
-      {edges.map(([x1, y1, x2, y2], i) => (
-        <motion.line
-          key={i}
-          x1={x1}
-          y1={y1}
-          x2={x2}
-          y2={y2}
-          stroke="url(#nn-grad)"
-          strokeWidth="1"
-          initial={{ pathLength: 0, opacity: 0.15 }}
-          whileInView={{ pathLength: 1, opacity: [0.15, 0.6, 0.15] }}
-          viewport={{ once: true }}
-          transition={{
-            pathLength: { duration: 1, delay: i * 0.02 },
-            opacity: { duration: 3, delay: i * 0.08, repeat: Infinity },
-          }}
-        />
-      ))}
-      {layers.map((layer, li) =>
-        layer.map((y) => (
-          <motion.circle
-            key={`${li}-${y}`}
-            cx={xs[li]}
-            cy={y}
-            r={li === layers.length - 1 ? 9 : 6}
-            fill="#0d1524"
-            stroke={li === layers.length - 1 ? "#3FCF5C" : "#0EA5E9"}
-            strokeWidth="2"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 + li * 0.15, type: "spring" }}
-          />
-        )),
-      )}
-      <defs>
-        <linearGradient id="nn-grad" x1="0" x2="1">
-          <stop offset="0" stopColor="#0EA5E9" />
-          <stop offset="1" stopColor="#3FCF5C" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-}
-
-function BarsVisual() {
-  const bars = [40, 65, 50, 85, 60, 95, 75];
-  return (
-    <div className="flex h-24 items-end gap-1.5">
-      {bars.map((h, i) => (
-        <motion.div
-          key={i}
-          className="flex-1 rounded-t-md bg-gradient-to-t from-brand-blue/40 to-brand-teal"
-          initial={{ height: 0 }}
-          whileInView={{ height: `${h}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-        />
-      ))}
-    </div>
-  );
-}
-
-function RegionsVisual() {
-  const regions = ["us-east", "eu-west", "ap-south", "sa-east"];
-  return (
-    <div className="grid grid-cols-2 gap-2">
-      {regions.map((r, i) => (
-        <div
-          key={r}
-          className="flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.03] px-2.5 py-2 font-mono text-[0.7rem] text-muted-foreground"
-        >
-          <span className="relative flex size-2">
-            <span
-              className="absolute inline-flex size-full animate-ping rounded-full bg-brand-green opacity-60"
-              style={{ animationDelay: `${i * 0.4}s` }}
-            />
-            <span className="relative inline-flex size-2 rounded-full bg-brand-green" />
-          </span>
-          {r}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-const STACK = [
-  "Next.js", "React Native", "TypeScript", "Python", "Rust", "Go",
-  "Kubernetes", "PyTorch", "Postgres", "Kafka", "Terraform", "Swift",
-];
-
-type Service = {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  className?: string;
-  visual?: React.ReactNode;
-};
-
-const SERVICES: Service[] = [
+const SERVICES = [
   {
-    icon: BrainCircuit,
-    title: "AI & Machine Learning",
-    description:
-      "From LLM copilots to custom vision and forecasting models — designed, trained, evaluated and shipped to production with MLOps baked in.",
-    className: "md:col-span-2",
-    visual: (
-      <div className="h-36 sm:h-40">
-        <NeuralVisual />
-      </div>
-    ),
+    name: "AI & Machine Learning",
+    body: "Custom models for prediction, vision and optimisation — trained on your data, evaluated against your scientific baselines and deployed with full MLOps.",
+    tags: ["PyTorch", "MLOps", "Evaluation"],
   },
   {
-    icon: CloudCog,
-    title: "Cloud Platforms",
-    description:
-      "Resilient, multi-region infrastructure on AWS, Azure and GCP with infrastructure-as-code and zero-downtime delivery.",
-    visual: <RegionsVisual />,
+    name: "LLM Agents & Copilots",
+    body: "Research assistants and workflow agents grounded in your literature, protocols and data, with citations, guardrails and human review built in.",
+    tags: ["RAG", "Agents", "Guardrails"],
   },
   {
-    icon: DatabaseZap,
-    title: "Data Engineering",
-    description:
-      "Real-time pipelines, lakehouses and analytics that turn raw signals into decisions.",
-    visual: <BarsVisual />,
+    name: "Scientific Computing & HPC",
+    body: "Simulation, bioinformatics and numerical workloads modernised for cloud GPUs and clusters — typically 10× faster and far cheaper to run.",
+    tags: ["CUDA", "Slurm", "Rust"],
   },
   {
-    icon: FlaskConical,
-    title: "Scientific Computing",
-    description:
-      "HPC, simulation and bioinformatics workloads modernised for the cloud — and made 10× faster.",
-    visual: (
-      <div className="rounded-lg border border-white/5 bg-black/30 p-3 font-mono text-[0.7rem] leading-relaxed text-muted-foreground">
-        <span className="text-brand-sky">simulate</span>(molecule,{" "}
-        <span className="text-brand-green">steps</span>=1e6)
-        <br />
-        <span className="text-white/30">→ 4.2s on 128 GPUs</span>
-      </div>
-    ),
+    name: "Data Platforms & Pipelines",
+    body: "Lakehouses, ELT and real-time streams that turn instrument output and operational data into analysis-ready, governed datasets.",
+    tags: ["Lakehouse", "Kafka", "dbt"],
   },
   {
-    icon: ShieldCheck,
-    title: "Security & Compliance",
-    description:
-      "SOC 2, HIPAA and GDPR-ready architectures with security reviewed at every pull request.",
-    visual: (
-      <div className="flex flex-wrap gap-2">
-        {["SOC 2", "HIPAA", "GDPR", "ISO 27001"].map((b) => (
-          <span key={b} className="rounded-full border border-brand-green/30 bg-brand-green/10 px-2.5 py-1 text-[0.7rem] text-brand-green">
-            {b}
-          </span>
-        ))}
-      </div>
-    ),
+    name: "Cloud & DevOps",
+    body: "Multi-region infrastructure-as-code on AWS, Azure and GCP with zero-downtime delivery, cost controls and 24/7 observability.",
+    tags: ["Kubernetes", "Terraform", "FinOps"],
   },
   {
-    icon: Smartphone,
-    title: "Product, Web & Mobile",
-    description:
-      "Beautiful, accessible product experiences — strategy, UX/UI and engineering under one roof, on every screen.",
-    className: "md:col-span-3",
-    visual: (
-      <div className="mask-fade-x flex overflow-hidden [--marquee-duration:30s]">
-        <div className="flex shrink-0 animate-marquee gap-2 pr-2">
-          {[...STACK, ...STACK].map((t, i) => (
-            <span
-              key={i}
-              aria-hidden={i >= STACK.length}
-              className="shrink-0 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-muted-foreground"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-    ),
+    name: "Web & Mobile Products",
+    body: "Fast, accessible applications that make complex science feel simple — from internal lab tools to customer-facing platforms.",
+    tags: ["Next.js", "React Native", "Design systems"],
+  },
+  {
+    name: "Lab & Device Integration",
+    body: "Connect instruments, sensors, LIMS and ELNs into one data fabric with secure edge gateways and automated capture.",
+    tags: ["IoT", "LIMS", "Edge"],
+  },
+  {
+    name: "Security & Compliance",
+    body: "SOC 2, HIPAA, GxP and GDPR-ready architectures, with security reviewed at every pull request and audit trails by design.",
+    tags: ["SOC 2", "GxP", "HIPAA"],
   },
 ];
+
+function ServiceItem({
+  index,
+  name,
+  body,
+  active,
+  onActive,
+}: {
+  index: number;
+  name: string;
+  body: string;
+  active: boolean;
+  onActive: (i: number) => void;
+}) {
+  const ref = useRef<HTMLLIElement>(null);
+  const inCenter = useInView(ref, { margin: "-45% 0px -45% 0px" });
+  useEffect(() => {
+    if (inCenter) onActive(index);
+  }, [inCenter, index, onActive]);
+
+  return (
+    <li ref={ref}>
+      <button
+        onClick={() => onActive(index)}
+        className={cn(
+          "w-full py-4 text-left text-[clamp(1.6rem,2.6vw,2.4rem)] leading-tight font-light transition-colors duration-500 lg:text-right",
+          active ? "text-foreground" : "text-dim hover:text-foreground/70",
+        )}
+      >
+        <span className={cn("transition-colors duration-500", active && "text-gradient")}>
+          {name}
+        </span>
+      </button>
+      {/* Mobile: details expand inline instead of the sticky side panel */}
+      <AnimatePresence initial={false}>
+        {active && (
+          <motion.p
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease }}
+            className="overflow-hidden font-mono text-sm leading-relaxed text-mono lg:hidden"
+          >
+            <span className="block pb-4">{body}</span>
+          </motion.p>
+        )}
+      </AnimatePresence>
+    </li>
+  );
+}
 
 export function Services() {
-  return (
-    <section id="services" className="relative scroll-mt-24 py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="What we do"
-          title={
-            <>
-              One partner for the <span className="text-gradient">entire stack</span>
-            </>
-          }
-          description="We combine scientific rigor with product craft. Six disciplines, one unified team that owns outcomes end-to-end."
-        />
+  const [active, setActive] = useState(0);
+  const s = SERVICES[active];
 
-        <div className="mt-16 grid gap-4 md:grid-cols-3">
-          {SERVICES.map((s, i) => (
-            <Reveal key={s.title} delay={(i % 3) * 0.08} className={cn(s.className)}>
-              <SpotlightCard className="h-full">
-                <div className="flex h-full flex-col gap-6 p-6 sm:p-7">
-                  <div className="flex items-start justify-between">
-                    <span className="flex size-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-brand-blue/30 to-brand-green/20 text-white">
-                      <s.icon className="size-5" />
-                    </span>
-                    <ArrowUpRight className="size-5 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading text-lg font-semibold">{s.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {s.description}
-                    </p>
-                  </div>
-                  {s.visual && <div className="mt-auto">{s.visual}</div>}
-                </div>
-              </SpotlightCard>
-            </Reveal>
+  return (
+    <TraceSection id="services" from={47.5} to={54} jog={60} innerClassName="py-28 lg:py-36">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.9, ease }}
+        className="flex items-center gap-6 lg:w-[46%]"
+      >
+        <LogoMark className="size-16 sm:size-20" sizes="80px" />
+        <h2 className="display text-[clamp(2.75rem,5vw,4.5rem)] text-dim">
+          What we
+          <br />
+          build
+        </h2>
+      </motion.div>
+
+      <div className="mt-20 flex flex-col gap-12 lg:mt-32 lg:flex-row">
+        <ol className="lg:w-[50%] lg:pr-10">
+          {SERVICES.map((svc, i) => (
+            <ServiceItem
+              key={svc.name}
+              index={i}
+              name={svc.name}
+              body={svc.body}
+              active={i === active}
+              onActive={setActive}
+            />
           ))}
+        </ol>
+
+        <div className="hidden lg:ml-auto lg:block lg:w-[38%]">
+          <div className="sticky top-[38vh] min-h-64">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.35, ease }}
+              >
+                <p className="font-mono text-xs tracking-[0.2em] text-signal">
+                  {String(active + 1).padStart(2, "0")} / {String(SERVICES.length).padStart(2, "0")}
+                </p>
+                <h3 className="mt-4 text-3xl font-light text-brand-green">{s.name}</h3>
+                <p className="mt-5 font-mono text-sm leading-relaxed text-mono">{s.body}</p>
+                <ul className="mt-6 flex flex-wrap gap-2">
+                  {s.tags.map((t) => (
+                    <li
+                      key={t}
+                      className="border border-white/10 px-2.5 py-1 font-mono text-[0.7rem] text-foreground/70"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
-    </section>
+    </TraceSection>
   );
 }

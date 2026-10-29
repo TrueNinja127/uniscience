@@ -1,182 +1,171 @@
 "use client";
 
-import { useRef } from "react";
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "motion/react";
-import { ArrowRight, PlayCircle, Sparkles } from "lucide-react";
+import { motion } from "motion/react";
+import { ArrowDown, Check, Play } from "lucide-react";
+import { Logo, LogoMark } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
-import { HeroVisual } from "@/components/site/hero-visual";
+import { HeroScene } from "@/components/site/hero-scene";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const HEADLINE = ["Where", "science", "becomes"];
+const CHECKLIST = [
+  "Prototype AI models on your own data",
+  "Build scalable data & cloud platforms",
+  "Ship web and mobile products",
+  "Validate every release with domain experts",
+  "Integrate with existing lab & business systems",
+];
 
-export function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // Cursor-follow spotlight
-  const mx = useMotionValue(-1000);
-  const my = useMotionValue(-1000);
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mx}px ${my}px, rgba(20,184,166,0.12), transparent 70%)`;
-
-  // Product preview tilts flat as you scroll into it
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-  const rotateX = useSpring(useTransform(scrollYProgress, [0, 0.4], [22, 0]), {
-    stiffness: 120,
-    damping: 24,
-  });
-  const scale = useTransform(scrollYProgress, [0, 0.4], [0.92, 1]);
-  const glowOpacity = useTransform(scrollYProgress, [0, 0.5], [0.4, 0.9]);
-
+function Line({ children, delay }: { children: React.ReactNode; delay: number }) {
   return (
-    <section
-      ref={sectionRef}
-      onPointerMove={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        mx.set(e.clientX - rect.left);
-        my.set(e.clientY - rect.top);
-      }}
-      className="relative isolate overflow-hidden pt-36 pb-24 sm:pt-44"
-    >
-      {/* Background layers */}
-      <div className="bg-grid mask-radial absolute inset-0 -z-10" />
-      <motion.div
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{ background: spotlight }}
-      />
-      <motion.div
+    <span className="block overflow-hidden pb-[0.06em]">
+      <motion.span
+        className="block"
+        initial={{ y: "105%" }}
+        animate={{ y: 0 }}
+        transition={{ duration: 1, delay, ease }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+/** The horizon the trace starts from: a line with a raised platform and the mark on top. */
+function Surface() {
+  return (
+    <div className="relative mx-auto mt-16 hidden h-36 max-w-7xl px-5 sm:px-8 lg:block">
+      <svg
         aria-hidden
-        className="absolute -top-40 left-1/2 -z-10 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-brand-blue/30 blur-[120px]"
-        animate={{ scale: [1, 1.08, 1], opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden
-        className="absolute top-40 -right-40 -z-10 h-[420px] w-[420px] rounded-full bg-brand-green/20 blur-[110px]"
-        animate={{ x: [0, -40, 0], y: [0, 30, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden
-        className="absolute top-72 -left-40 -z-10 h-[380px] w-[380px] rounded-full bg-brand-teal/20 blur-[110px]"
-        animate={{ x: [0, 50, 0], y: [0, -20, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      <div className="mx-auto flex max-w-6xl flex-col items-center px-4 text-center sm:px-6">
-        <motion.a
-          href="#platform"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
-          className="group relative inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] py-1 pr-3 pl-1 text-xs text-muted-foreground backdrop-blur transition-colors hover:border-white/20 hover:text-foreground sm:text-sm"
-        >
-          <span className="inline-flex items-center gap-1 rounded-full bg-brand-gradient px-2 py-0.5 text-[0.7rem] font-semibold text-white">
-            <Sparkles className="size-3" /> New
-          </span>
-          Uniscience Fusion — our AI platform is live
-          <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-        </motion.a>
-
-        <h1 className="mt-8 max-w-4xl font-heading text-[2.6rem] leading-[1.05] font-semibold tracking-tight text-balance sm:text-6xl md:text-7xl">
-          {HEADLINE.map((word, i) => (
-            <motion.span
-              key={word}
-              className="inline-block"
-              initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.8, delay: 0.1 + i * 0.08, ease }}
-            >
-              {word}&nbsp;
-            </motion.span>
-          ))}
-          <motion.span
-            className="text-gradient inline-block"
-            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, delay: 0.4, ease }}
-          >
-            software.
-          </motion.span>
-        </h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.55, ease }}
-          className="mt-6 max-w-2xl text-base text-pretty text-muted-foreground sm:text-lg"
-        >
-          Uniscience is a product engineering studio that unifies AI, cloud
-          and data into platforms built with scientific precision. From
-          first prototype to global scale.
-        </motion.p>
-
+        viewBox="0 0 1000 100"
+        preserveAspectRatio="none"
+        className="absolute inset-x-5 top-0 h-24 w-[calc(100%-2.5rem)] overflow-visible sm:inset-x-8 sm:w-[calc(100%-4rem)]"
+      >
+        <motion.path
+          d="M0 60 H370 L392 34 H608 L630 60 H1000"
+          fill="none"
+          stroke="rgb(255 255 255 / 0.55)"
+          strokeWidth="1"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.6, delay: 0.9, ease: "easeInOut" }}
+        />
+      </svg>
+      <div className="absolute top-[31px] left-1/2 flex -translate-x-1/2 -translate-y-full flex-col items-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7, ease }}
-          className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
+          transition={{ delay: 1.8, duration: 0.8, ease }}
         >
-          <Button variant="brand" size="xl" asChild>
-            <a href="#contact">
-              Start your project <ArrowRight />
-            </a>
-          </Button>
-          <Button variant="glass" size="xl" asChild>
-            <a href="#process">
-              <PlayCircle /> See how we work
-            </a>
-          </Button>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.9 }}
-          className="mt-8 flex items-center gap-3 text-sm text-muted-foreground"
-        >
-          <div className="flex -space-x-2">
-            {["#0B4FE0", "#0EA5E9", "#14B8A6", "#3FCF5C"].map((c, i) => (
-              <span
-                key={c}
-                className="flex size-7 items-center justify-center rounded-full border-2 border-background text-[0.65rem] font-semibold text-white"
-                style={{ background: c }}
-              >
-                {["AK", "MJ", "SL", "RT"][i]}
-              </span>
-            ))}
-          </div>
-          <span>
-            Trusted by <span className="text-foreground">120+</span> product
-            teams worldwide
-          </span>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.85, ease }}
-          className="relative mt-20 w-full [perspective:1400px]"
-        >
-          <motion.div
-            aria-hidden
-            style={{ opacity: glowOpacity }}
-            className="absolute inset-x-10 -top-10 bottom-0 -z-10 rounded-[2rem] bg-brand-gradient blur-[90px]"
-          />
-          <motion.div style={{ rotateX, scale, transformOrigin: "50% 0%" }}>
-            <HeroVisual />
-          </motion.div>
+          <LogoMark className="size-12 drop-shadow-[0_0_18px_rgba(76,242,119,0.45)]" sizes="48px" />
         </motion.div>
       </div>
+      {/* First drop of the trace, from the platform into the page */}
+      <motion.div
+        className="glow-signal absolute top-[33px] left-1/2 w-[1.5px] -translate-x-1/2 origin-top bg-signal"
+        style={{ height: "calc(100% - 33px)" }}
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ delay: 2.2, duration: 0.8, ease: "easeIn" }}
+      />
+      <div className="absolute top-[46px] right-[calc(50%+22px)] text-right font-mono text-[0.68rem] leading-tight tracking-[0.18em] uppercase">
+        Start
+        <br />
+        experiment
+      </div>
+      <motion.div
+        className="absolute top-[44px] left-[calc(50%+26px)] text-mono"
+        animate={{ y: [0, 6, 0] }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <ArrowDown className="size-5" strokeWidth={1.25} />
+      </motion.div>
+    </div>
+  );
+}
+
+export function Hero() {
+  return (
+    <section className="relative isolate overflow-hidden pt-32 sm:pt-40">
+      <HeroScene />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <h1 className="display max-w-4xl text-[clamp(2.9rem,7.6vw,6.6rem)] normal-case">
+          <Line delay={0.15}>Complex science.</Line>
+          <Line delay={0.3}>
+            Engineered into <span className="text-gradient">software.</span>
+          </Line>
+        </h1>
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.8, ease }}
+          className="mt-6 max-w-2xl text-xl leading-snug text-foreground/85 sm:text-2xl"
+        >
+          AI, data and cloud platforms for research-driven companies — designed by
+          scientists, built by engineers, in one unified team.
+        </motion.p>
+
+        <div className="mt-14 grid items-end gap-12 lg:mt-20 lg:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.8, ease }}
+            className="flex flex-col items-start gap-8"
+          >
+            <Logo priority className="h-14 sm:h-[4.5rem]" />
+            <div className="flex flex-wrap gap-3">
+              <Button variant="signal" size="xl" asChild>
+                <a href="#contact">Start</a>
+              </Button>
+              <Button variant="signal-outline" size="xl" asChild>
+                <a href="#approach">
+                  <Play className="fill-current" /> How we work
+                </a>
+              </Button>
+            </div>
+          </motion.div>
+
+          <div className="font-mono lg:justify-self-end">
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1, duration: 0.6 }}
+              className="flex gap-4 text-base leading-relaxed tracking-[0.06em] uppercase sm:text-lg"
+            >
+              <Play className="mt-1.5 size-4 shrink-0 fill-signal text-signal" />
+              <span className="max-w-md">
+                Turn your research into production software, guided by real scientists
+              </span>
+            </motion.p>
+            <ul className="mt-6 space-y-2.5 pl-8 text-[0.82rem] text-foreground/80">
+              {CHECKLIST.map((item, i) => (
+                <motion.li
+                  key={item}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.3 + i * 0.12, duration: 0.5, ease }}
+                  className="flex items-center gap-3"
+                >
+                  <Check className="size-4 shrink-0 text-signal" />
+                  {item}
+                </motion.li>
+              ))}
+              <motion.li
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.3 + CHECKLIST.length * 0.12, duration: 0.5, ease }}
+                className="flex items-center gap-3 font-bold text-foreground"
+              >
+                <Check className="size-4 shrink-0 text-signal" />
+                Scale from pilot to global production
+              </motion.li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <Surface />
     </section>
   );
 }

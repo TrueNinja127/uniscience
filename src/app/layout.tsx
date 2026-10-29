@@ -1,19 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Sora } from "next/font/google";
+import { JetBrains_Mono, Roboto_Condensed } from "next/font/google";
+import { MotionProvider } from "@/components/motion/motion-provider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const condensed = Roboto_Condensed({
+  variable: "--font-condensed",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const sora = Sora({
-  variable: "--font-sora",
+const mono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 });
 
@@ -23,35 +19,36 @@ export const metadata: Metadata = {
     template: "%s · Uniscience",
   },
   description:
-    "Uniscience builds AI, cloud, and data platforms that turn complex science into software people love to use.",
+    "Uniscience engineers AI, data and cloud platforms for research-driven companies — designed by scientists, built by engineers, in one team.",
   keywords: [
     "Uniscience",
     "Unified Science Technology",
-    "software development",
+    "scientific software",
     "AI engineering",
-    "cloud platforms",
-    "data engineering",
+    "data platforms",
+    "cloud engineering",
   ],
   openGraph: {
     title: "Uniscience — Unified Science Technology",
-    description:
-      "AI, cloud, and data platforms engineered with scientific precision.",
+    description: "Complex science, engineered into software.",
     siteName: "Uniscience",
     type: "website",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b1220",
+  themeColor: "#050806",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} h-full antialiased`}
+      className={`${condensed.variable} ${mono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }
