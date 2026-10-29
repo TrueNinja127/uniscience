@@ -101,7 +101,7 @@ const vertexShader = /* glsl */ `
     vec3 p = position;
     p.x += sin(uTime * 0.4 + position.y * 0.6) * 0.06;
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
-    gl_PointSize = aSize * 34.0 * uPixelRatio / -mv.z;
+    gl_PointSize = aSize * 40.0 * uPixelRatio / -mv.z;
     gl_Position = projectionMatrix * mv;
   }
 `;

@@ -17,11 +17,24 @@ const BOKEH = [
   { x: "70%", y: "30%", s: 14, c: "rgba(255,190,110,0.25)" },
 ];
 
-export function HeroScene({ progress }: { progress: MotionValue<number> }) {
+export function HeroScene({
+  progress,
+  pointerX,
+  pointerY,
+}: {
+  progress: MotionValue<number>;
+  pointerX: MotionValue<number>;
+  pointerY: MotionValue<number>;
+}) {
   // Parallax depth: the photo drifts slower than the page and pushes toward the camera.
   const y = useTransform(progress, [0, 1], ["0%", "28%"]);
   const scale = useTransform(progress, [0, 1], [1, 1.22]);
   const glowY = useTransform(progress, [0, 1], ["0%", "-40%"]);
+  // Pointer depth: the far photo shifts a little, the near light layer shifts more.
+  const photoX = useTransform(pointerX, [-0.5, 0.5], [18, -18]);
+  const photoY = useTransform(pointerY, [-0.5, 0.5], [12, -12]);
+  const glowX = useTransform(pointerX, [-0.5, 0.5], [-50, 50]);
+  const glowPY = useTransform(pointerY, [-0.5, 0.5], [-30, 30]);
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -34,7 +47,8 @@ export function HeroScene({ progress }: { progress: MotionValue<number> }) {
           initial={{ scale: 1.15, opacity: 0 }}
           animate={{ scale: 1.04, opacity: 1 }}
           transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0"
+          style={{ x: photoX, y: photoY }}
+          className="absolute -inset-6"
         >
           <Image
             src={heroPhoto}
@@ -50,8 +64,10 @@ export function HeroScene({ progress }: { progress: MotionValue<number> }) {
 
       {/* Brand light spilling from the screens: a nearer layer, so it moves faster */}
       <motion.div style={{ y: glowY }} className="absolute inset-0">
+        <motion.div style={{ x: glowX, y: glowPY }} className="absolute inset-0">
         <div className="absolute -top-40 right-[-5%] h-[700px] w-[800px] rounded-full bg-signal/[0.12] mix-blend-screen blur-[140px]" />
         <div className="absolute top-1/3 right-[25%] h-[420px] w-[520px] rounded-full bg-brand-sky/[0.12] mix-blend-screen blur-[120px]" />
+        </motion.div>
       </motion.div>
 
       {BOKEH.map((b, i) => (

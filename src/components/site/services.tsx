@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useInView } from "motion/react";
 import { SectionLabel } from "@/components/site/section-label";
 import { TraceSection } from "@/components/site/trace";
 import { cn } from "@/lib/utils";
+import { Drum } from "@/components/motion/depth";
 import Image from "next/image";
 import devTeam from "@/assets/photos/dev-team.jpg";
 import serverRacks from "@/assets/photos/server-racks.jpg";
@@ -84,6 +85,7 @@ function ServiceItem({
 
   return (
     <li ref={ref}>
+      <Drum origin="100% 50%">
       <button
         onClick={() => onActive(index)}
         className={cn(
@@ -95,6 +97,7 @@ function ServiceItem({
           {name}
         </span>
       </button>
+      </Drum>
       {/* Mobile: details expand inline instead of the sticky side panel */}
       <AnimatePresence initial={false}>
         {active && (
@@ -156,7 +159,7 @@ export function Services() {
 
         <div className="hidden lg:ml-auto lg:block lg:w-[38%]">
           <div className="sticky top-[18vh] min-h-64">
-            <div className="relative mb-8 aspect-[16/10] overflow-hidden rounded-[1.75rem] border border-white/10 shadow-[0_40px_80px_-30px_rgb(0_0_0/0.8)]">
+            <div className="relative mb-8 aspect-[16/10] overflow-hidden rounded-[1.25rem] bg-white/[0.03]">
               <AnimatePresence initial={false}>
                 <motion.div
                   key={s.photo.src}
@@ -176,7 +179,6 @@ export function Services() {
                   />
                 </motion.div>
               </AnimatePresence>
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent" />
             </div>
             <AnimatePresence mode="wait">
               <motion.div

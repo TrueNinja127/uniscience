@@ -76,9 +76,9 @@ function Testimonials() {
         <AnimatePresence mode="wait">
           <motion.figure
             key={index}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -24 }}
+            initial={{ opacity: 0, y: 40, rotateX: -55, transformPerspective: 1100 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            exit={{ opacity: 0, y: -40, rotateX: 55 }}
             transition={{ duration: 0.6, ease }}
           >
             <blockquote className="max-w-4xl text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.15] font-light">

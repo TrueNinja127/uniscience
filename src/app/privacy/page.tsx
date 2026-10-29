@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import { COVER } from "@/lib/site";
 import { LegalPage, type LegalSection } from "@/components/legal/legal-page";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "How Uniscience (Unified Science Technology) collects, uses and protects personal information.",
+  alternates: { canonical: "/privacy" },
+  openGraph: { type: "article", url: "/privacy", title: "Privacy Policy | Uniscience", images: [COVER] },
+  twitter: { card: "summary_large_image", title: "Privacy Policy | Uniscience", images: [COVER] },
 };
 
 const EMAIL = (

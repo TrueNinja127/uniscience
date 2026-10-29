@@ -10,10 +10,12 @@ import { Process } from "@/components/site/process";
 import { Voices } from "@/components/site/voices";
 import { Contact } from "@/components/site/contact";
 import { Footer } from "@/components/site/footer";
+import { StructuredData } from "@/components/seo/structured-data";
 
 export default function Home() {
   return (
     <>
+      <StructuredData />
       <Header />
       <SceneBackdrop />
       <ScaleRuler />

@@ -20,7 +20,7 @@ class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean
 /** Fixed 3D layer that sits behind every section of the page. */
 export function SceneBackdrop() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 opacity-70 max-md:opacity-45">
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 opacity-90 max-md:opacity-50">
       <SceneBoundary>
         <HelixField />
       </SceneBoundary>

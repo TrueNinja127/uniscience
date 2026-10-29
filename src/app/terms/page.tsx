@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import { COVER } from "@/lib/site";
 import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/legal/legal-page";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "The terms that govern your use of the Uniscience (Unified Science Technology) website.",
+  alternates: { canonical: "/terms" },
+  openGraph: { type: "article", url: "/terms", title: "Terms of Service | Uniscience", images: [COVER] },
+  twitter: { card: "summary_large_image", title: "Terms of Service | Uniscience", images: [COVER] },
 };
 
 const EMAIL = <a href="mailto:info@uniscience.io">info@uniscience.io</a>;

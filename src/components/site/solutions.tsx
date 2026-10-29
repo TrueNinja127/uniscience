@@ -7,6 +7,7 @@ import { TraceSection } from "@/components/site/trace";
 import { Figure } from "@/components/site/figure";
 import microscopeCloseup from "@/assets/photos/microscope-closeup.jpg";
 import { cn } from "@/lib/utils";
+import { Drum } from "@/components/motion/depth";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -40,9 +41,11 @@ function Item({ lines, align }: { lines: string[]; align: "left" | "right" }) {
         lit ? "text-foreground" : "text-white/20",
       )}
     >
-      {lines[0]}
-      <br />
-      {lines[1]}
+      <Drum origin={align === "right" ? "100% 50%" : "0% 50%"}>
+        {lines[0]}
+        <br />
+        {lines[1]}
+      </Drum>
     </li>
   );
 }

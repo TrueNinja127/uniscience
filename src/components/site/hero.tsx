@@ -1,7 +1,13 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import {
+  motion,
+  useMotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import { ArrowDown, ArrowRight, Check, Play } from "lucide-react";
 import { LogoMark } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
@@ -17,7 +23,13 @@ const CHECKLIST = [
   "Integrate with existing lab & business systems",
 ];
 
-function Line({ children, delay }: { children: React.ReactNode; delay: number }) {
+function Line({
+  children,
+  delay,
+}: {
+  children: React.ReactNode;
+  delay: number;
+}) {
   return (
     <span className="block overflow-hidden pb-[0.06em]">
       <motion.span
@@ -58,7 +70,10 @@ function Surface() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8, duration: 0.8, ease }}
         >
-          <LogoMark className="size-12 drop-shadow-[0_0_18px_rgba(76,242,119,0.45)]" sizes="48px" />
+          <LogoMark
+            className="size-12 drop-shadow-[0_0_18px_rgba(76,242,119,0.45)]"
+            sizes="48px"
+          />
         </motion.div>
       </div>
       {/* First drop of the trace, from the platform into the page */}
@@ -87,8 +102,15 @@ function Surface() {
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const p = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.3 });
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const p = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 28,
+    mass: 0.3,
+  });
 
   // As the hero scrolls away, its content tilts back and recedes into depth.
   const rotateX = useTransform(p, [0, 1], [0, 18]);
@@ -96,29 +118,47 @@ export function Hero() {
   const y = useTransform(p, [0, 1], [0, 120]);
   const opacity = useTransform(p, [0, 0.75], [1, 0]);
 
+  // Cursor parallax: layers shift by depth, so the hero reads as 3D space.
+  const mx = useSpring(useMotionValue(0), {
+    stiffness: 60,
+    damping: 18,
+    mass: 0.6,
+  });
+  const my = useSpring(useMotionValue(0), {
+    stiffness: 60,
+    damping: 18,
+    mass: 0.6,
+  });
+  const rotateY = useTransform(mx, [-0.5, 0.5], [3.5, -3.5]);
+  const contentX = useTransform(mx, [-0.5, 0.5], [-14, 14]);
+
   return (
     <section
       ref={ref}
+      onPointerMove={(e) => {
+        mx.set(e.clientX / window.innerWidth - 0.5);
+        my.set(e.clientY / window.innerHeight - 0.5);
+      }}
+      onPointerLeave={() => {
+        mx.set(0);
+        my.set(0);
+      }}
       className="relative isolate flex min-h-svh flex-col overflow-hidden pt-28 [perspective:1400px] [@media(max-height:820px)]:pt-24"
     >
-      <HeroScene progress={p} />
+      <HeroScene progress={p} pointerX={mx} pointerY={my} />
 
       <motion.div
-        style={{ rotateX, z, y, opacity, transformOrigin: "50% 0%" }}
+        style={{
+          rotateX,
+          rotateY,
+          x: contentX,
+          z,
+          y,
+          opacity,
+          transformOrigin: "50% 0%",
+        }}
         className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-5 pb-16 will-change-transform sm:px-8 lg:pb-0"
       >
-        <motion.a
-          href="#services"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease }}
-          className="group mb-6 inline-flex items-center gap-3 self-start rounded-full border border-white/10 bg-white/[0.04] py-1 pr-4 pl-1 text-sm backdrop-blur-md transition-colors hover:border-signal/50"
-        >
-          <span className="rounded-full bg-brand-gradient px-2.5 py-0.5 text-xs font-semibold text-ink">New</span>
-          <span className="text-foreground/80">Introducing Uniscience Fusion, our AI research platform</span>
-          <ArrowRight className="size-3.5 text-signal transition-transform group-hover:translate-x-0.5" />
-        </motion.a>
-
         <h1 className="display max-w-5xl text-[clamp(2.75rem,min(6.6vw,9svh),6rem)]">
           <Line delay={0.15}>Complex science.</Line>
           <Line delay={0.3}>
@@ -131,8 +171,8 @@ export function Hero() {
           transition={{ delay: 0.7, duration: 0.8, ease }}
           className="mt-6 max-w-2xl text-lg leading-relaxed font-light text-foreground/80 sm:text-xl"
         >
-          AI, data and cloud platforms for research-driven companies. Designed by
-          scientists, built by engineers, in one unified team.
+          AI, data and cloud platforms for research-driven companies. Designed
+          by scientists, built by engineers, in one unified team.
         </motion.p>
 
         <div className="mt-10 grid items-end gap-10 lg:grid-cols-[1fr_auto]">
@@ -155,15 +195,15 @@ export function Hero() {
               </Button>
             </div>
             {/* Placeholder figures: replace with real company numbers. */}
-            <dl className="grid w-full max-w-md grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md lg:[@media(max-height:820px)]:hidden">
+            <dl className="flex gap-10 sm:gap-14 lg:[@media(max-height:820px)]:hidden">
               {[
                 ["250+", "Products shipped"],
                 ["40M", "End users"],
                 ["12", "Countries"],
               ].map(([v, l]) => (
-                <div key={l} className="flex flex-col-reverse px-5 py-4">
-                  <dt className="mt-1 text-xs text-mono">{l}</dt>
-                  <dd className="text-2xl font-light text-foreground">{v}</dd>
+                <div key={l} className="flex flex-col-reverse">
+                  <dt className="mt-1 text-sm text-mono">{l}</dt>
+                  <dd className="text-3xl font-light tracking-tight text-foreground tabular-nums">{v}</dd>
                 </div>
               ))}
             </dl>
@@ -173,36 +213,24 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1, duration: 0.8, ease }}
-            className="rounded-[1.75rem] border border-white/10 bg-ink/40 p-6 backdrop-blur-xl lg:max-w-md [@media(max-height:820px)]:p-5"
+            className="lg:max-w-sm"
           >
-            <p className="flex gap-3 text-base leading-snug font-medium">
-              <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-signal/15">
-                <Play className="size-2.5 fill-signal text-signal" />
-              </span>
+            <p className="text-[0.95rem] leading-relaxed text-foreground/90">
               Turn your research into production software, guided by real scientists.
             </p>
-            <ul className="mt-4 space-y-2 pl-8 text-sm text-foreground/75 [@media(max-height:820px)]:mt-3 [@media(max-height:820px)]:space-y-1">
-              {CHECKLIST.map((item, i) => (
+            <ul className="mt-4 grid gap-2 text-sm text-mono [@media(max-height:820px)]:gap-1">
+              {[...CHECKLIST, "Scale from pilot to global production"].map((item, i) => (
                 <motion.li
                   key={item}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.3 + i * 0.1, duration: 0.5, ease }}
+                  transition={{ delay: 1.3 + i * 0.08, duration: 0.5, ease }}
                   className="flex items-center gap-3"
                 >
-                  <Check className="size-4 shrink-0 text-signal" />
+                  <Check className="size-3.5 shrink-0 text-signal" strokeWidth={2.5} />
                   {item}
                 </motion.li>
               ))}
-              <motion.li
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.3 + CHECKLIST.length * 0.1, duration: 0.5, ease }}
-                className="flex items-center gap-3 font-medium text-foreground"
-              >
-                <Check className="size-4 shrink-0 text-signal" />
-                Scale from pilot to global production
-              </motion.li>
             </ul>
           </motion.div>
         </div>

@@ -83,7 +83,7 @@ export function Header() {
               onClick={() => setOpen((o) => !o)}
               aria-expanded={open}
               aria-controls="site-menu"
-              className="group flex h-10 items-center gap-3 rounded-full border border-white/15 bg-white/[0.04] pr-4 pl-3.5 text-sm font-medium backdrop-blur-md transition-colors hover:border-white/30"
+              className="group flex h-10 items-center gap-3 px-2 text-sm font-medium text-foreground/85 transition-colors hover:text-foreground"
             >
               <span className="relative block h-2.5 w-5">
                 <span

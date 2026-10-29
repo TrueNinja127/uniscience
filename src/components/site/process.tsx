@@ -6,32 +6,10 @@ import { Logo } from "@/components/brand/logo";
 import { TraceSection } from "@/components/site/trace";
 import { Figure } from "@/components/site/figure";
 import { SectionLabel } from "@/components/site/section-label";
+import { ProcessDeck } from "@/components/site/process-deck";
 import cleanroom from "@/assets/photos/cleanroom.jpg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
-const STEPS = [
-  {
-    phase: "Week 1-2",
-    title: "Discover",
-    body: "We immerse in your domain, data and users, then define outcomes, risks and the target architecture.",
-  },
-  {
-    phase: "Week 3-5",
-    title: "Experiment",
-    body: "Hypotheses become working prototypes. We validate models and UX with real data before committing.",
-  },
-  {
-    phase: "Month 2+",
-    title: "Engineer",
-    body: "Senior squads ship in two-week increments with CI/CD, automated tests and a demo every sprint.",
-  },
-  {
-    phase: "Ongoing",
-    title: "Scale",
-    body: "We launch, observe and optimise, then hand over, or keep evolving the product with your team.",
-  },
-];
 
 // Placeholder figures: replace with real company numbers.
 const STATS = [
@@ -88,35 +66,9 @@ export function Process() {
         </p>
       </motion.div>
 
-      <ol className="mt-24 grid gap-4 [perspective:1400px] sm:grid-cols-2 lg:mt-32 lg:ml-[16%] lg:grid-cols-4">
-        {STEPS.map((step, i) => (
-          <motion.li
-            key={step.title}
-            initial={{ opacity: 0, y: 80, rotateX: 40 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 1.1, delay: i * 0.12, ease }}
-            whileHover={{ y: -8 }}
-            style={{ transformOrigin: "50% 100%" }}
-            className="group rounded-[1.75rem] border border-white/[0.08] bg-white/[0.025] p-6 transition-[background-color,border-color,box-shadow] duration-500 hover:border-signal/30 hover:bg-white/[0.05] hover:shadow-[0_30px_60px_-30px_rgb(76_242_119/0.35)] lg:p-7"
-          >
-            <div className="flex items-center justify-between">
-              <span className="flex size-10 items-center justify-center rounded-full border border-signal/30 bg-signal/10 text-sm text-signal tabular-nums">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-mono">
-                {step.phase}
-              </span>
-            </div>
-            <h3 className="mt-10 text-3xl font-light transition-colors group-hover:text-brand-green">
-              {step.title}
-            </h3>
-            <p className="mt-3 text-[0.95rem] leading-relaxed text-mono">{step.body}</p>
-          </motion.li>
-        ))}
-      </ol>
+      <ProcessDeck />
 
-      <dl className="mt-24 grid grid-cols-2 gap-y-12 lg:ml-[16%] lg:grid-cols-4">
+      <dl className="mt-24 grid grid-cols-2 gap-y-12 lg:mt-8 lg:ml-[16%] lg:grid-cols-4">
         {STATS.map((s) => (
           <div key={s.label} className="flex flex-col-reverse lg:pl-8">
             <dt className="eyebrow mt-3 text-mono">
