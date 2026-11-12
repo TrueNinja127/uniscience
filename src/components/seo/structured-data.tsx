@@ -32,10 +32,20 @@ export function StructuredData() {
         description: SITE.description,
         slogan: SITE.tagline,
         email: SITE.email,
+        telephone: SITE.phoneHref.replace("tel:", ""),
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: SITE.address.street,
+          addressLocality: SITE.address.city,
+          addressRegion: SITE.address.region,
+          postalCode: SITE.address.postalCode,
+          addressCountry: SITE.address.country,
+        },
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "sales",
           email: SITE.email,
+          telephone: SITE.phoneHref.replace("tel:", ""),
           availableLanguage: ["English"],
         },
         knowsAbout: [

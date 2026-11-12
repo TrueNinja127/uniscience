@@ -8,6 +8,15 @@ export const SITE = {
   description:
     "Uniscience builds AI, data and cloud platforms for research-driven companies. Designed by scientists, built by engineers, from first prototype to global scale.",
   email: "info@uniscience.io",
+  phone: "+1 (253) 453-1155",
+  phoneHref: "tel:+12534531155",
+  address: {
+    street: "1603 Capitol Ave, Ste 415 #39034",
+    city: "Cheyenne",
+    region: "WY",
+    postalCode: "82001",
+    country: "US",
+  },
   locale: "en_US",
   themeColor: "#050806",
 } as const;

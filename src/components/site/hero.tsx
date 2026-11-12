@@ -194,19 +194,6 @@ export function Hero() {
                 </a>
               </Button>
             </div>
-            {/* Placeholder figures: replace with real company numbers. */}
-            <dl className="flex gap-10 sm:gap-14 lg:[@media(max-height:820px)]:hidden">
-              {[
-                ["250+", "Products shipped"],
-                ["40M", "End users"],
-                ["12", "Countries"],
-              ].map(([v, l]) => (
-                <div key={l} className="flex flex-col-reverse">
-                  <dt className="mt-1 text-sm text-mono">{l}</dt>
-                  <dd className="text-3xl font-light tracking-tight text-foreground tabular-nums">{v}</dd>
-                </div>
-              ))}
-            </dl>
           </motion.div>
 
           <motion.div

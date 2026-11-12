@@ -146,7 +146,22 @@ const SECTIONS: LegalSection[] = [
   {
     id: "contact",
     title: "Contact us",
-    body: <p>Questions about these Terms? Contact us at {EMAIL}.</p>,
+    body: (
+      <>
+        <p>Questions about these Terms? Contact us:</p>
+        <p>
+          <strong>Uniscience</strong>
+          <br />
+          1603 Capitol Ave, Ste 415 #39034
+          <br />
+          Cheyenne, WY 82001, USA
+          <br />
+          Email: {EMAIL}
+          <br />
+          Phone: <a href="tel:+12534531155">+1 (253) 453-1155</a>
+        </p>
+      </>
+    ),
   },
 ];
 

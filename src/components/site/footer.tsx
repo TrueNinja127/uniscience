@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { BackToTop } from "@/components/site/footer-parts";
+import { CompanyContact } from "@/components/site/company-contact";
 
 const COLUMNS = [
   {
@@ -28,7 +29,6 @@ const COLUMNS = [
     links: [
       ["Approach", "/#approach"],
       ["Process", "/#process"],
-      ["Client stories", "/#testimonials"],
       ["Careers", "mailto:info@uniscience.io?subject=Careers"],
       ["Contact", "/#contact"],
     ],
@@ -86,12 +86,8 @@ export function Footer() {
               AI, data and cloud platforms for research-driven organisations,
               engineered with scientific rigor.
             </p>
-            <a
-              href="mailto:info@uniscience.io"
-              className="w-max text-[0.95rem] text-foreground underline decoration-white/20 underline-offset-4 transition-colors hover:text-signal hover:decoration-signal"
-            >
-              info@uniscience.io
-            </a>
+            <CompanyContact />
+
             <ul className="mt-2 flex gap-2">
               {SOCIALS.map((s) => (
                 <li key={s.label}>

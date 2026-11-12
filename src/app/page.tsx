@@ -7,7 +7,7 @@ import { Services } from "@/components/site/services";
 import { Solutions } from "@/components/site/solutions";
 import { Industries } from "@/components/site/industries";
 import { Process } from "@/components/site/process";
-import { Voices } from "@/components/site/voices";
+import { Faq } from "@/components/site/faq";
 import { Contact } from "@/components/site/contact";
 import { Footer } from "@/components/site/footer";
 import { StructuredData } from "@/components/seo/structured-data";
@@ -28,7 +28,7 @@ export default function Home() {
         <Solutions />
         <Industries />
         <Process />
-        <Voices />
+        <Faq />
         <Contact />
       </main>
       <Footer />

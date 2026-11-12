@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { animate, motion, useInView } from "motion/react";
+import { motion } from "motion/react";
 import { Logo } from "@/components/brand/logo";
 import { TraceSection } from "@/components/site/trace";
 import { Figure } from "@/components/site/figure";
@@ -10,30 +9,6 @@ import { ProcessDeck } from "@/components/site/process-deck";
 import cleanroom from "@/assets/photos/cleanroom.jpg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
-// Placeholder figures: replace with real company numbers.
-const STATS = [
-  { value: 250, suffix: "+", label: "Products shipped" },
-  { value: 98, suffix: "%", label: "Client retention" },
-  { value: 40, suffix: "M", label: "End users served" },
-  { value: 12, suffix: "", label: "Countries" },
-];
-
-function Counter({ to, suffix }: { to: number; suffix: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  useEffect(() => {
-    const node = ref.current;
-    if (!inView || !node) return;
-    const c = animate(0, to, {
-      duration: 2,
-      ease,
-      onUpdate: (v) => (node.textContent = `${Math.round(v)}${suffix}`),
-    });
-    return () => c.stop();
-  }, [inView, to, suffix]);
-  return <span ref={ref}>0{suffix}</span>;
-}
 
 export function Process() {
   return (
@@ -68,19 +43,6 @@ export function Process() {
 
       <ProcessDeck />
 
-      <dl className="mt-24 grid grid-cols-2 gap-y-12 lg:mt-8 lg:ml-[16%] lg:grid-cols-4">
-        {STATS.map((s) => (
-          <div key={s.label} className="flex flex-col-reverse lg:pl-8">
-            <dt className="eyebrow mt-3 text-mono">
-              {s.label}
-            </dt>
-            <dd className="display text-gradient text-6xl font-light sm:text-7xl">
-              <Counter to={s.value} suffix={s.suffix} />
-            </dd>
-          </div>
-        ))}
-      </dl>
-
       <Figure
         src={cleanroom}
         alt="Technician in a clean-room suit operating laboratory automation equipment"
@@ -88,7 +50,7 @@ export function Process() {
         caption="Validated in real labs, not just in staging"
         aspect="aspect-[16/9] lg:aspect-[21/9]"
         sizes="(min-width: 1024px) 80vw, 100vw"
-        className="mt-28 lg:ml-[16%]"
+        className="mt-16 lg:mt-8 lg:ml-[16%]"
       />
     </TraceSection>
   );

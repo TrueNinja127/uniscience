@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 import serverRacks from "@/assets/photos/server-racks.jpg";
-import { ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { LogoMark } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { TraceSection } from "@/components/site/trace";
 import { SectionLabel } from "@/components/site/section-label";
+import { CompanyContact } from "@/components/site/company-contact";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -65,7 +66,7 @@ export function Contact() {
           transition={{ duration: 0.9, delay: 0.15, ease }}
           className="flex flex-col justify-end gap-8 lg:ml-auto lg:w-[45%]"
         >
-          <SectionLabel index={8} label="Contact" />
+          <SectionLabel index={7} label="Contact" />
           <p className="max-w-md text-[0.95rem] leading-relaxed text-foreground/80">
             Tell us about your challenge. In a free 30-minute session our principal
             engineers will map out an approach, timeline and budget, with no strings attached.
@@ -80,12 +81,7 @@ export function Contact() {
               <a href="mailto:info@uniscience.io?subject=Book%20a%20call">Book a call</a>
             </Button>
           </div>
-          <a
-            href="mailto:info@uniscience.io"
-            className="flex w-max items-center gap-3 text-sm text-mono transition-colors hover:text-signal"
-          >
-            <Mail className="size-4" /> info@uniscience.io
-          </a>
+          <CompanyContact className="border-t border-white/10 pt-6" />
         </motion.div>
       </div>
 

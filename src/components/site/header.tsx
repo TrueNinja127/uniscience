@@ -9,6 +9,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Logo, LogoMark } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { SITE } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -156,10 +157,18 @@ export function Header() {
                 <LogoMark className="size-20" sizes="80px" />
                 <div className="space-y-1">
                   <p className="eyebrow text-signal">New projects</p>
-                  <a href="mailto:info@uniscience.io" className="text-xl text-foreground hover:text-signal">
-                    info@uniscience.io
+                  <a href={`mailto:${SITE.email}`} className="block text-xl text-foreground hover:text-signal">
+                    {SITE.email}
+                  </a>
+                  <a href={SITE.phoneHref} className="block text-xl text-foreground hover:text-signal">
+                    {SITE.phone}
                   </a>
                 </div>
+                <p className="max-w-xs leading-relaxed">
+                  {SITE.address.street}
+                  <br />
+                  {SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}, USA
+                </p>
                 <p className="max-w-xs leading-relaxed">
                   Unified Science Technology. AI, data and cloud platforms engineered with scientific rigor.
                 </p>
